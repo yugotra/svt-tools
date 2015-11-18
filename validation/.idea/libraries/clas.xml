@@ -1,0 +1,26 @@
+<component name="libraryTable">
+  <library name="clas">
+    <CLASSES>
+      <root url="file:///Volumes/data/work/coatjava/lib/clas" />
+      <root url="file:///Volumes/data/work/coatjava/lib/misc" />
+      <root url="file:///Volumes/data/work/coatjava/lib/packages" />
+      <root url="file:///Volumes/data/work/coatjava/lib/plugins" />
+      <root url="file:///Volumes/data/work/coatjava/lib/utils" />
+      <root url="file://$PROJECT_DIR$/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file:///Volumes/data/work/coatjava/lib/clas" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file:///Volumes/data/work/coatjava/lib/clas" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
+    <jarDirectory url="file:///Volumes/data/work/coatjava/lib/clas" recursive="false" />
+    <jarDirectory url="file:///Volumes/data/work/coatjava/lib/misc" recursive="false" />
+    <jarDirectory url="file:///Volumes/data/work/coatjava/lib/packages" recursive="false" />
+    <jarDirectory url="file:///Volumes/data/work/coatjava/lib/plugins" recursive="false" />
+    <jarDirectory url="file:///Volumes/data/work/coatjava/lib/utils" recursive="false" />
+    <jarDirectory url="file:///Volumes/data/work/coatjava/lib/clas" recursive="false" type="SOURCES" />
+  </library>
+</component>
