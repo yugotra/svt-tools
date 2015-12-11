@@ -9,19 +9,44 @@ public class Main {
     public static void main(String[] args) {
 
         SVTValidation svtValidation = new SVTValidation();
-        long printEvent;
-        if(svtValidation.debug_) printEvent=1;
-        else printEvent=svtValidation.print_event_nr_;
 
-        if(svtValidation.read_histo_) {
+
+
+
+//        if (!svtValidation.debug) {
+//            System.out.println(
+//                    StringUtils.getStringBlue(
+//                            StringTable.getTitleString("COAT/JAVA PLATFORM for CLAS12  version 1.0", 1)));
+
+//        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//
+//                public void run() {
+//                    TableRender.createAndShowGUI();
+//                }
+//            });
+//        return;
+
+
+
+
+//        }
+
+
+
+
+    long printEvent;
+        if(svtValidation.debug) printEvent=1;
+        else printEvent=svtValidation.printEventNr;
+
+        if(svtValidation.readHisto) {
             if(args.length==0) {
                 System.out.println("Enter the histogram file name to read");
                 return;
             }
             String histoFilename = args[0];
             System.out.println(histoFilename);
-            svtValidation.svthistos_.rootdir_.readFile(histoFilename);
-            TBrowser brs = new TBrowser(svtValidation.svthistos_.rootdir_);
+            svtValidation.svtHistos.rootDir.readFile(histoFilename);
+            TBrowser browser = new TBrowser(svtValidation.svtHistos.rootDir);
             return;
         }
 
@@ -41,44 +66,44 @@ public class Main {
 
         EvioDataChain reader = new EvioDataChain();
         for(String inputFile : inputFiles) {
-//        for(String inputFile : svtValidation.input_files_) {
+//        for(String inputFile : svtValidation.inputFiles) {
             reader.addFile(inputFile);
         }
         reader.open();
 
-        while(reader.hasEvent()&&svtValidation.event_nr_<=svtValidation.num_events_) {
+        while(reader.hasEvent()&&svtValidation.eventNr <=svtValidation.numEvents) {
             EvioDataEvent event = reader.getNextEvent();
-            if(svtValidation.event_nr_<=svtValidation.skip_events_) {
-                svtValidation.event_nr_++;
+            if(svtValidation.eventNr <=svtValidation.skipEvents) {
+                svtValidation.eventNr++;
                 continue;
             }
-            if(svtValidation.event_nr_%printEvent==0) System.out.println(Constants.GREEN+"Event "+svtValidation.event_nr_+Constants.RESET);
+            if(svtValidation.eventNr %printEvent==0) System.out.println(Constants.GREEN+"Event "+svtValidation.eventNr +Constants.RESET);
             SVTEvent svtevt = new SVTEvent();
-            if(!svtValidation.skip_ || (!svtevt.SkipEvent(event,svtValidation.print_))) {
-                if(svtValidation.debug_) System.out.println(Constants.GREEN+"pass skip"+Constants.RESET);
-                svtevt.SetEventNumber(svtValidation.event_nr_);
-                svtevt.ReadTracks(event,svtValidation.print_);
-                if(svtValidation.print_) svtevt.ShowTracks();
-                svtevt.ReadOffTrack(event,svtValidation.print_);
-                if(svtValidation.print_) svtevt.ShowOffTrack();
-                svtevt.FillTrackHistos(svtValidation.svthistos_);
-                svtevt.FillOffTrackHistos(svtValidation.svthistos_);
-                svtevt.FillEventHistos(event,svtValidation.svthistos_);
+            if(!svtValidation.skip || (!svtevt.SkipEvent(event,svtValidation.print))) {
+                if(svtValidation.debug) System.out.println(Constants.GREEN+"pass skip"+Constants.RESET);
+                svtevt.SetEventNumber(svtValidation.eventNr);
+                svtevt.ReadTracks(event,svtValidation.print);
+                if(svtValidation.print) svtevt.ShowTracks();
+                svtevt.ReadOffTrack(event,svtValidation.print);
+                if(svtValidation.print) svtevt.ShowOffTrack();
+                svtevt.FillTrackHistos(svtValidation.svtHistos);
+                svtevt.FillOffTrackHistos(svtValidation.svtHistos);
+                svtevt.FillEventHistos(event,svtValidation.svtHistos);
             }
             // else {
-            // if(svtValidation.debug_==true) System.out.println(Constants.RED+"skipping event"+Constants.RESET);
+            // if(svtValidation.debug==true) System.out.println(Constants.RED+"skipping event"+Constants.RESET);
             // }
-            svtValidation.event_nr_++;
+            svtValidation.eventNr++;
         }
 
-//         SVTGraphs svtgraphs = new SVTGraphs(svtValidation.svthistos_);
-//         svtgraphs.book();
-        if(svtValidation.save_histo_) {
-            svtValidation.svthistos_.rootdir_.write(svtValidation.histoFileName);
+//         SVTGraphs svtGraphs = new SVTGraphs(svtValidation.svtHistos);
+//         svtGraphs.book();
+        if(svtValidation.saveHisto) {
+            svtValidation.svtHistos.rootDir.write(svtValidation.histoFileName);
             System.out.println("Histogram file: "+svtValidation.histoFileName);
         }
-        System.out.println(Constants.GREEN+"Events processed: "+(svtValidation.event_nr_-1)+Constants.RESET);
+        System.out.println(Constants.GREEN+"Events processed: "+(svtValidation.eventNr -1)+Constants.RESET);
         TBrowser br;
-        if(svtValidation.launch_browser_) br = new TBrowser(svtValidation.svthistos_.rootdir_);
+        if(svtValidation.launchBrowser) br = new TBrowser(svtValidation.svtHistos.rootDir);
     }
 }

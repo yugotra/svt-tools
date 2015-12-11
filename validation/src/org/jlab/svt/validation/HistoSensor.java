@@ -6,47 +6,47 @@ import org.root.histogram.H2D;
 
 public class HistoSensor {
 
-    public H1D[][] h_;
-    public H2D[][] h2_;
-    String name_;
-    public TDirectory rootdir_;
-    public TDirectory  dir_;
+    public H1D[][] h;
+    public H2D[][] h2;
+    String name;
+    public TDirectory rootDir;
+    public TDirectory directory;
 
-    public HistoSensor(TDirectory rootdir,TDirectory dir,String name){
-        name_=name;
-        rootdir_=rootdir;
-        dir_=dir;
+    public HistoSensor(TDirectory rootDir,TDirectory dir,String name){
+        this.name =name;
+        this.rootDir =rootDir;
+        directory =dir;
     }
 
     public void book(String varName, int nBins, double xMin, double xMax) {
 
-        h_ = new H1D[Constants.NLAYERS][Constants.NSECTORS];
-        String dirVar = dir_.getName()+"/"+varName;
+        h = new H1D[Constants.NLAYERS][Constants.NSECTORS];
+        String dirVar = directory.getName()+"/"+varName;
         TDirectory dir = new TDirectory(dirVar);
-        String hname;
-        String htitle;
+        String hName;
+        String hTitle;
 
         for(int i=0; i<Constants.NLAYERS; ++i) {
             for(int j=0; j<Constants.NSECTORS; ++j) {
                 if(i<2 && j>Constants.NR1SECTORS-1) continue;
                 else if((i==2||i==3) && j>Constants.NR2SECTORS-1) continue;
                 else if((i==4||i==5) && j>Constants.NR3SECTORS-1) continue;
-                hname="h"+varName+"_"+(i+1)+"_"+(j+1);
-                htitle=varName+", Layer "+(i+1)+", Sector "+(j+1);
-                h_[i][j] = new H1D(hname, htitle, nBins, xMin, xMax);
-                h_[i][j].setXTitle(varName);
-                h_[i][j].setYTitle("Entries");
-                h_[i][j].setFillColor(24);
-                dir.add(h_[i][j]);
+                hName="h"+varName+"_"+(i+1)+"_"+(j+1);
+                hTitle=varName+", Layer "+(i+1)+", Sector "+(j+1);
+                h[i][j] = new H1D(hName, hTitle, nBins, xMin, xMax);
+                h[i][j].setXTitle(varName);
+                h[i][j].setYTitle("Entries");
+                h[i][j].setFillColor(24);
+                dir.add(h[i][j]);
             }//sector
         }//layer
-        rootdir_.addDirectory(dir);
+        rootDir.addDirectory(dir);
     }
 
     public void book(String varName, String xTitle, String yTitle, int nBinsX, double xMin, double xMax, int nBinsY, double yMin, double yMax) {
 
-        h2_ = new H2D[Constants.NLAYERS][Constants.NSECTORS];
-        String dirVar = dir_.getName()+"/"+varName;
+        h2 = new H2D[Constants.NLAYERS][Constants.NSECTORS];
+        String dirVar = directory.getName()+"/"+varName;
         TDirectory dir = new TDirectory(dirVar);
         String hname;
         String htitle;
@@ -58,17 +58,17 @@ public class HistoSensor {
                 else if((i==4||i==5) && j>Constants.NR3SECTORS-1) continue;
                 hname="h"+varName+"_"+(i+1)+"_"+(j+1);
                 htitle=varName+", Layer "+(i+1)+", Sector "+(j+1);
-                h2_[i][j] = new H2D(hname, htitle, nBinsX, xMin, xMax, nBinsY, yMin, yMax);
-                h2_[i][j].setTitle(hname);
-                h2_[i][j].setXTitle(xTitle);
-                h2_[i][j].setYTitle(yTitle);
-// 	h2_[i][j].setMarkerStyle(20);
-// 	h2_[i][j].setMarkerSize(0.3);
-// 	h2_[i][j].setMarkerColor(24);
-                dir.add(h2_[i][j]);
+                h2[i][j] = new H2D(hname, htitle, nBinsX, xMin, xMax, nBinsY, yMin, yMax);
+                h2[i][j].setTitle(hname);
+                h2[i][j].setXTitle(xTitle);
+                h2[i][j].setYTitle(yTitle);
+// 	h2[i][j].setMarkerStyle(20);
+// 	h2[i][j].setMarkerSize(0.3);
+// 	h2[i][j].setMarkerColor(24);
+                dir.add(h2[i][j]);
             }//sector
         }//layer
-        rootdir_.addDirectory(dir);
+        rootDir.addDirectory(dir);
     }
 }
 

@@ -62,9 +62,9 @@ public class HistoModule {
                 h2_[i][j].setTitle(hname);
                 h2_[i][j].setXTitle(xTitle);
                 h2_[i][j].setYTitle(yTitle);
-// 	h2_[i][j].setMarkerStyle(20);
-// 	h2_[i][j].setMarkerSize(0.3);
-// 	h2_[i][j].setMarkerColor(24);
+// 	h2[i][j].setMarkerStyle(20);
+// 	h2[i][j].setMarkerSize(0.3);
+// 	h2[i][j].setMarkerColor(24);
                 dir.add(h2_[i][j]);
             }//sector
         }//region

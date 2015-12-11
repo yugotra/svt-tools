@@ -5,41 +5,41 @@ import java.util.List;
 
 public class SVTValidation {
 
-    int event_nr_;
-    long num_events_; // events to process
-    boolean print_; // dump event
-    boolean debug_; // for debugging
-    boolean skip_; // skip events based on cuts
-    boolean save_histo_; // save histo file
-    boolean launch_browser_; // open TBrowser after processing
-    long skip_events_; // events to skip
-    long print_event_nr_; // display progress
-    boolean read_histo_;
+    int eventNr;
+    long numEvents; // events to process
+    boolean print; // dump event
+    boolean debug; // for debugging
+    boolean skip; // skip events based on cuts
+    boolean saveHisto; // save histo file
+    boolean launchBrowser; // open TBrowser after processing
+    long skipEvents; // events to skip
+    long printEventNr; // display progress
+    boolean readHisto;
     String histoFileName;
-    SVTHistos svthistos_;
-    public static List<String> input_files_;
+    SVTHistos svtHistos;
+    public static List<String> inputFiles;
 
     public SVTValidation(){
 
-        debug_=false;
-        print_=false;
-        skip_=false;
-        save_histo_=true;
-        launch_browser_=true;
-        read_histo_=false;
-        skip_events_=0;
-        num_events_= (long) 1e9;
-        print_event_nr_=20000;
-        event_nr_=0;
+        debug =false;
+        print =false;
+        skip =false;
+        saveHisto =true;
+        launchBrowser =true;
+        readHisto =false;
+        skipEvents =0;
+        numEvents = (long) 1e9;
+        printEventNr =20000;
+        eventNr =0;
         histoFileName="svtValidation.evio";
-        svthistos_ = new SVTHistos();
-        svthistos_.book();
+        svtHistos = new SVTHistos();
+        svtHistos.book();
         try {
             File dir = new File(".");
             File fin = null;
             fin = new File(dir.getCanonicalPath() + File.separator + "inputfiles.txt");
             readFile(fin);
-//            System.out.println(input_files_);
+//            System.out.println(inputFiles);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class SVTValidation {
 
         String line = null;
         while ((line = br.readLine()) != null) {
-//            if(!line.startsWith("//")) input_files_.add(line);
+//            if(!line.startsWith("//")) inputFiles.add(line);
 //                System.out.println(line);
         }
 

@@ -22,7 +22,7 @@ public class CalibrationStore {
     AbsDetectorTranslationTable                 translationTable = new AbsDetectorTranslationTable();
     
     public CalibrationStore(){
-        translationTable.readFile("/Users/gavalian/Work/Software/Release-8.0/COATJAVA/coatjava/etc/bankdefs/translation/SVT.table");
+        translationTable.readFile("/Volumes/data/work/coatjava/etc/bankdefs/translation/SVT.table");
         System.out.println(this.translationTable.toString());
         
     }
@@ -33,11 +33,12 @@ public class CalibrationStore {
     
     public void readData(String directory){
         List<String> dirFiles = FileUtils.getFilesInDir(directory);
-        
+
         System.out.println("-----> found files : " + dirFiles.size());
         int icounter = 0;
         for(String f : dirFiles){
-            if(f.contains("scan_")==true){
+//            if(f.contains("scan_")){
+            if(f.contains("svt")){
                 icounter++;
                 if(icounter<80){
                     System.out.println("----> name : " + f);                
@@ -64,15 +65,16 @@ public class CalibrationStore {
             analysisTimer.pause();
         }
 
-        System.out.println(analysisTimer);
+//        System.out.println(analysisTimer);
     }
     public static void main(String[] args){
         DataFitter.FITPRINTOUT = false;
         CalibrationStore sectors = new CalibrationStore();
         //CalibrationDataChip  chip = new CalibrationDataChip();
-        //chip.readData("/Users/gavalian/Work/Software/Release-8.0/SVT/101/2/scan_u1_s03c1");
+        //chip.readData("/Volumes/data/work/pscan/101/2/scan_u1_s03c1");
         //chip.collection.show();
-        sectors.readData("/Users/gavalian/Work/Software/Release-8.0/SVT/101/2");
+        sectors.readData("/Volumes/data/work/pscan/test");
+//        sectors.readData("/Volumes/data/work/pscan/20151123_1551");
         //sectors.analyze();
     }
 }

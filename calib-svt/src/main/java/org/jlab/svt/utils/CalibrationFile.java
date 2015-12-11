@@ -35,6 +35,11 @@ public class CalibrationFile {
         return Integer.parseInt(tokens[1].trim());
     }
     
+    public int  getAmplitude(String str){
+        String[] tokens = str.split(",");
+        return Integer.parseInt(tokens[0].trim());
+    }
+
     public double[]  getArray(String str){
         String[] tokens = str.split(",");
         double[] array = new double[tokens.length-2];
@@ -51,7 +56,7 @@ public class CalibrationFile {
             while(line!=null){
 
                 String[] tokens = line.split("\\s+");
-                //System.out.println("line " + tokens.length + " : [" + line + "]");
+//                System.out.println("line " + tokens.length + " : [" + line + "]");
                 if(tokens.length==1){
                     if(tokens[0].length()>0){
                         int channel = Integer.parseInt(tokens[0]);
@@ -60,9 +65,9 @@ public class CalibrationFile {
                         String s3 = br.readLine();
                         CalibrationData data = new CalibrationData(0,0,channel);
                         
-                        data.addGraph(this.getShift(s1), this.getArray(s1));
-                        data.addGraph(this.getShift(s2), this.getArray(s2));
-                        data.addGraph(this.getShift(s3), this.getArray(s3));
+                        data.addGraph(this.getAmplitude(s1), this.getShift(s1), this.getArray(s1));
+                        data.addGraph(this.getAmplitude(s2), this.getShift(s2), this.getArray(s2));
+                        data.addGraph(this.getAmplitude(s3), this.getShift(s3), this.getArray(s3));
                         
                         this.calibData.add(data);
                     }

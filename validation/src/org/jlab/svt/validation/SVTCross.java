@@ -104,7 +104,7 @@ public class SVTCross {
         nf.setMaximumFractionDigits(2);
 //     System.out.println("Cross " + id_ + " " + sector_ + " " + region_ + " " + nf.format(x_) + " " + nf.format(y_) + " " + nf.format(z_) + " " + nf.format(err_x_) + 
 // 		       " " + nf.format(err_y_) + " " + nf.format(err_z_) + " " + nf.format(ux_) + " " + nf.format(uy_) + " " + nf.format(uz_) + " " + " clId " + cluster_id_[0] + 
-//                        " " + cluster_id_[1] + " trId " + track_id_ + " ncl " + n_track_clusters_ + " nh " + n_track_hits_);
+//                        " " + cluster_id_[1] + " trId " + track_id_ + " ncl " + nTrackClusters + " nh " + nTrackHits);
 
         TableBuilder tb = new TableBuilder();
         tb.addRow("CrossID", "sector", "region", "x", "y", "z", "err_x", "err_y", "err_z", "ux", "uy", "uz", "Cl1_ID", "Cl2_ID", "Tk_ID", "N_cl", "N_h");

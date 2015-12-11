@@ -69,8 +69,8 @@ public class SVTCluster {
                 if(bank_SVTHit.getInt("clusterID",row)!=cluster_id) continue;
                 hit_row++;
                 AddTrackHit();
-                // svt_track_hits_.get(hit_row).id_=row+1;
-                // svt_track_hits_.get(hit_row).id_=bank_SVTHit.getInt("id",row);
+                // svtTrackHits.get(hit_row).id_=row+1;
+                // svtTrackHits.get(hit_row).id_=bank_SVTHit.getInt("id",row);
                 svt_track_hits_.get(hit_row).id_=bank_SVTHit.getInt("ID",row);
                 svt_track_hits_.get(hit_row).sector_=bank_SVTHit.getInt("sector",row);
                 svt_track_hits_.get(hit_row).layer_=bank_SVTHit.getInt("layer",row);
