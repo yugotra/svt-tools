@@ -40,8 +40,9 @@ public class CalibrationStore {
 //            if(f.contains("scan_")){
             if(f.contains("svt")){
                 icounter++;
-                if(icounter<80){
-                    System.out.println("----> name : " + f);                
+                if(icounter<80){ // TEMPORARY debugging
+//                if(icounter<8000){ // TEMPORARY debugging
+                    System.out.println("----> name : " + f);
                     CalibrationDataChip store = new CalibrationDataChip(this.translationTable);                
                     store.readData(f);
                     this.calibrationStore.add(store.detectorDescriptor, store);
@@ -49,10 +50,9 @@ public class CalibrationStore {
             }
         }
         
-        this.calibrationStore.show();
+//        this.calibrationStore.show();
         
     }
-    
     
     public void analyze(){
         BenchmarkTimer analysisTimer = new BenchmarkTimer("FULL-ANALYSIS");
@@ -65,15 +65,15 @@ public class CalibrationStore {
             analysisTimer.pause();
         }
 
-//        System.out.println(analysisTimer);
+        System.out.println(analysisTimer);
     }
     public static void main(String[] args){
-        DataFitter.FITPRINTOUT = false;
-        CalibrationStore sectors = new CalibrationStore();
+//        DataFitter.FITPRINTOUT = false;
+//        CalibrationStore sectors = new CalibrationStore();
         //CalibrationDataChip  chip = new CalibrationDataChip();
         //chip.readData("/Volumes/data/work/pscan/101/2/scan_u1_s03c1");
         //chip.collection.show();
-        sectors.readData("/Volumes/data/work/pscan/test");
+//        sectors.readData("/Volumes/data/work/pscan/test");
 //        sectors.readData("/Volumes/data/work/pscan/20151123_1551");
         //sectors.analyze();
     }

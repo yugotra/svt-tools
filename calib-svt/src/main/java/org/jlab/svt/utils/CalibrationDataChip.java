@@ -28,7 +28,7 @@ public class CalibrationDataChip {
     
     DetectorCollection<CalibrationData>  collection = new DetectorCollection<CalibrationData>();
     ConstantsTable                       dataTable  = new ConstantsTable(DetectorType.BST,
-            new String[]{"ENC1, e","ENC2, e", "ENC3, e","Gain, mV/fC"} );
+            new String[]{"Chip", "ENC1, e","ENC2, e", "ENC3, e","Gain, mV/fC"} );
     
     public DetectorDescriptor    detectorDescriptor = new DetectorDescriptor(DetectorType.BST);
     public GraphErrors           chipDataOffset = new GraphErrors();
@@ -107,22 +107,26 @@ public class CalibrationDataChip {
             this.dataTable.getEntry(
                     data.getDescriptor().getSector(),
                     data.getDescriptor().getLayer(),
+                    data.getDescriptor().getComponent()).setData(0, this.CHIP);
+            this.dataTable.getEntry(
+                    data.getDescriptor().getSector(),
+                    data.getDescriptor().getLayer(),
 //                    data.getDescriptor().getComponent()).setData(0, Double.parseDouble(nf.format(data.getFunc(0).getParameter(2)*CalibrationData.MVDAC)));
-                    data.getDescriptor().getComponent()).setData(0, Double.parseDouble(nf.format(enc1)));
+                    data.getDescriptor().getComponent()).setData(1, Double.parseDouble(nf.format(enc1)));
             this.dataTable.getEntry(
                     data.getDescriptor().getSector(), 
                     data.getDescriptor().getLayer(),
 //                    data.getDescriptor().getComponent()).setData(1, Double.parseDouble(nf.format(data.getFunc(1).getParameter(2)*CalibrationData.MVDAC)));
-                    data.getDescriptor().getComponent()).setData(1, Double.parseDouble(nf.format(enc2)));
+                    data.getDescriptor().getComponent()).setData(2, Double.parseDouble(nf.format(enc2)));
             this.dataTable.getEntry(
                     data.getDescriptor().getSector(), 
                     data.getDescriptor().getLayer(),
 //                    data.getDescriptor().getComponent()).setData(2, Double.parseDouble(nf.format(data.getFunc(2).getParameter(2)*CalibrationData.MVDAC)));
-                    data.getDescriptor().getComponent()).setData(2, Double.parseDouble(nf.format(enc3)));
+                    data.getDescriptor().getComponent()).setData(3, Double.parseDouble(nf.format(enc3)));
             this.dataTable.getEntry(
                     data.getDescriptor().getSector(), 
                     data.getDescriptor().getLayer(),
-                    data.getDescriptor().getComponent()).setData(3, Double.parseDouble(nf.format(data.getResFunc().getParameter(1))));
+                    data.getDescriptor().getComponent()).setData(4, Double.parseDouble(nf.format(data.getResFunc().getParameter(1))));
             timer.pause();
         }
         
@@ -186,27 +190,33 @@ public class CalibrationDataChip {
         int crate  = this.detectorDescriptor.getCrate();
         int slot   = this.detectorDescriptor.getSlot();
         int sector = this.trTable.getSector(crate, slot , 0);
-        this.detectorDescriptor.setSectorLayerComponent(sector, this.CHIP*10+this.CHAN, 0);
+        int region = this.trTable.getLayer(crate, slot, 0);
+        int layer = 2*(region)-(this.CHIP<3 ? 1 : 0);
+//        int component = this.trTable.getComponent(crate, slot, 0);
+        this.detectorDescriptor.setSectorLayerComponent(sector, layer, 0);
+//        this.detectorDescriptor.setSectorLayerComponent(sector, this.CHIP*10+this.CHAN, 0);
         System.out.println("crate "+crate+" slot "+slot+" sector "+sector+" chip "+this.CHIP+" chan "+this.CHAN);
         for(CalibrationData data : cf.getDataList()){
             //System.out.println("adding data");
             data.getDescriptor().setType(DetectorType.BST);
             data.getDescriptor().setSectorLayerComponent(sector,
-                    this.CHIP*10+this.CHAN, data.getDescriptor().getComponent());
+                    layer, data.getDescriptor().getComponent());
+//            data.getDescriptor().setSectorLayerComponent(sector,
+//                    this.CHIP*10+this.CHAN, data.getDescriptor().getComponent());
             this.collection.add(data.getDescriptor(), data);
             System.out.println(data.desc);
         }
     }
     
     public static void main(String[] args){
-        AbsDetectorTranslationTable  tr = new AbsDetectorTranslationTable();
-        tr.readFile("/Volumes/data/work/coatjava/etc/bankdefs/translation/SVT.table");
-        
-        CalibrationDataChip store = new CalibrationDataChip(tr);
+//        AbsDetectorTranslationTable  tr = new AbsDetectorTranslationTable();
+//        tr.readFile("/Volumes/data/work/coatjava/etc/bankdefs/translation/SVT.table");
+
+//        CalibrationDataChip store = new CalibrationDataChip(tr);
 //        store.readData("/Volumes/data/work/pscan/101/2/scan_u2_s15c1");
-        store.readData("/Volumes/data/work/pscan/test/svt2_s03_c1_u1");
+//        store.readData("/Volumes/data/work/pscan/test/svt2_s03_c1_u1");
 //        store.readData("/Volumes/data/work/pscan/20151123_1551/svt7_s03_c2_u4");
-        store.collection.show();
+//        store.collection.show();
 /*
         TGCanvas  canvas = new TGCanvas("c1","SVT",800,900,2,2);
         store.getCollection().show();

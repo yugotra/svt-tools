@@ -52,7 +52,8 @@ public class Main {
 
         String[] inputFiles = {
 //                "/Volumes/data/work/clasio/svtskim.mc.0.evio",
-                "/Volumes/data/work/coatjava/rec_output.mc.pv.0.evio",
+//                "/Volumes/data/work/coatjava/rec_output.mc.pv.0.evio",
+                "/Volumes/data/work/coatjava/rec_output.mc.helic.0.evio",
 //                "/Volumes/data/work/coatjava/rec_output.mc.0.evio",
 //                "/Volumes/data/work/coatjava/rec_output.mc.1.evio",
 //                 "/Volumes/data/work/coatjava/rec_output.257.17.0.0.evio",

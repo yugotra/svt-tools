@@ -18,28 +18,33 @@ public class GeometrySVT {
         DetectorShapeView2D view = new DetectorShapeView2D("BST");
         int[] sectors = new int[]{10,14,18,24};
         double[] distances = new double[]{120.0,160.0,200.0,240.0};
-        for(int ring = 0; ring < 4; ring++){
-            for(int sector = 0; sector < sectors[ring]; sector++){
-                double rotation = sector*360.0/sectors[ring];
-                for(int layer = 0; layer < 2; layer++){
+        for(int region = 0; region < 4; region++){
+            for(int sector = 0; sector < sectors[region]; sector++){
+                double rotation = sector*360.0/sectors[region];
+                for(int side = 0; side < 2; side++){
+                    int layer = 2*(region+1)-(side==0 ? 1 : 0);
+                    int chip = (layer == 0 ? 2 : 1);
                     DetectorShape2D  shape_CH0 = new DetectorShape2D(
-                            DetectorType.BST,sector+1,(layer+1),1);
+                            DetectorType.BST,sector+1,layer,chip);
+//                            DetectorType.BST,sector+1,(side+1),2);
+//                            DetectorType.BST,sector,(region+1)*10+(side+1),0);
                     shape_CH0.createBarXY(30.0, 8.0);
                     shape_CH0.getShapePath().translateXYZ(15,0.0,0.0);
-                    shape_CH0.getShapePath().translateXYZ(0, distances[ring] + 10*layer, 0.0);
-                    if(layer%2==0){
+                    shape_CH0.getShapePath().translateXYZ(0, distances[region] + 10*side, 0.0);
+                    if(side%2==0){
                         shape_CH0.setColor(180, 180, 255);
                     } else {
                         shape_CH0.setColor(180, 255, 180);
                     }
                     shape_CH0.getShapePath().rotateZ(Math.toRadians(rotation));
-
+                    chip = (layer == 0 ? 1 : 2);
                     DetectorShape2D  shape_CH1 = new DetectorShape2D(
-                    DetectorType.BST,sector+1,(layer+1),2);
+                    DetectorType.BST,sector+1,layer,chip);
+//                    DetectorType.BST,sector+1,(side+1),1);
                     shape_CH1.createBarXY(30.0, 8.0);
                     shape_CH1.getShapePath().translateXYZ(-15,0.0,0.0);
-                    shape_CH1.getShapePath().translateXYZ(0, distances[ring] + 10*layer, 0.0);
-                    if(layer%2==0){
+                    shape_CH1.getShapePath().translateXYZ(0, distances[region] + 10*side, 0.0);
+                    if(side%2==0){
                         shape_CH1.setColor(180, 180, 255);
                     } else {
                         shape_CH1.setColor(180, 255, 180);

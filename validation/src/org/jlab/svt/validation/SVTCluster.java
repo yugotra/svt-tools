@@ -5,48 +5,48 @@ import org.jlab.evio.clas12.EvioDataEvent;
 import java.util.ArrayList;
 
 public class SVTCluster {
-    int id_;
-    int sector_;
-    int layer_;
-    int size_;
-    double e_tot_;
-    double seed_e_;
-    int seed_strip_;
-    double centroid_;
-    int hit1_id_;
-    int hit2_id_;
-    int hit3_id_;
-    int hit4_id_;
-    int hit5_id_;
-    int cross_id_;
-    int trj_id_;
-    int track_id_;
-    int n_track_hits_;
-    ArrayList <SVTHit> svt_track_hits_;
+    int id;
+    int sector;
+    int layer;
+    int size;
+    double eTot;
+    double seedE;
+    int seedStrip;
+    double centroid;
+    int hit1Id;
+    int hit2Id;
+    int hit3Id;
+    int hit4Id;
+    int hit5Id;
+    int crossId;
+    int trjId;
+    int trackId;
+    int nTrackHits;
+    ArrayList <SVTHit> svtTrackHits;
 
     SVTCluster() {
-        id_=-1;
-        sector_=-1;
-        layer_=-1;
-        size_=-1;
-        e_tot_=-1;
-        seed_e_=-1;
-        seed_strip_=-1;
-        centroid_=-1;
-        hit1_id_=-1;
-        hit2_id_=-1;
-        hit3_id_=-1;
-        hit4_id_=-1;
-        hit5_id_=-1;
-        cross_id_=-1;
-        trj_id_=-1;
-        track_id_=-1;
-        n_track_hits_=0;
-        svt_track_hits_ = new ArrayList<>();
+        id =-1;
+        sector =-1;
+        layer =-1;
+        size =-1;
+        eTot =-1;
+        seedE =-1;
+        seedStrip =-1;
+        centroid =-1;
+        hit1Id =-1;
+        hit2Id =-1;
+        hit3Id =-1;
+        hit4Id =-1;
+        hit5Id =-1;
+        crossId =-1;
+        trjId =-1;
+        trackId =-1;
+        nTrackHits =0;
+        svtTrackHits = new ArrayList<>();
     }
 
     SVTCluster GetBySensor(int layer, int sector) {
-        if(layer_==layer&&sector_==sector) return this;
+        if(this.layer ==layer&& this.sector ==sector) return this;
         else return null;
     }
 
@@ -69,37 +69,37 @@ public class SVTCluster {
                 if(bank_SVTHit.getInt("clusterID",row)!=cluster_id) continue;
                 hit_row++;
                 AddTrackHit();
-                // svtTrackHits.get(hit_row).id_=row+1;
-                // svtTrackHits.get(hit_row).id_=bank_SVTHit.getInt("id",row);
-                svt_track_hits_.get(hit_row).id_=bank_SVTHit.getInt("ID",row);
-                svt_track_hits_.get(hit_row).sector_=bank_SVTHit.getInt("sector",row);
-                svt_track_hits_.get(hit_row).layer_=bank_SVTHit.getInt("layer",row);
-                svt_track_hits_.get(hit_row).strip_=bank_SVTHit.getInt("strip",row);
-                svt_track_hits_.get(hit_row).fit_residual_=bank_SVTHit.getDouble("fitResidual",row);
-                svt_track_hits_.get(hit_row).trking_stat_=bank_SVTHit.getInt("trkingStat",row);
-                svt_track_hits_.get(hit_row).cluster_id_=bank_SVTHit.getInt("clusterID",row);
+                // svtTrackHits.get(hit_row).id=row+1;
+                // svtTrackHits.get(hit_row).id=bank_SVTHit.getInt("id",row);
+                svtTrackHits.get(hit_row).id =bank_SVTHit.getInt("ID",row);
+                svtTrackHits.get(hit_row).sector =bank_SVTHit.getInt("sector",row);
+                svtTrackHits.get(hit_row).layer =bank_SVTHit.getInt("layer",row);
+                svtTrackHits.get(hit_row).strip =bank_SVTHit.getInt("strip",row);
+                svtTrackHits.get(hit_row).fitResidual =bank_SVTHit.getDouble("fitResidual",row);
+                svtTrackHits.get(hit_row).trkingStat =bank_SVTHit.getInt("trkingStat",row);
+                svtTrackHits.get(hit_row).clusterId =bank_SVTHit.getInt("clusterID",row);
                 if(dgtzBank) {
-                    svt_track_hits_.get(hit_row).adc_=bank_SVTDgtz.getInt("ADC",svt_track_hits_.get(hit_row).id_-1);
-                    svt_track_hits_.get(hit_row).bco_=bank_SVTDgtz.getInt("bco",svt_track_hits_.get(hit_row).id_-1);
-                    svt_track_hits_.get(hit_row).hit_n_=bank_SVTDgtz.getInt("hitn",svt_track_hits_.get(hit_row).id_-1);
+                    svtTrackHits.get(hit_row).adc =bank_SVTDgtz.getInt("ADC", svtTrackHits.get(hit_row).id -1);
+                    svtTrackHits.get(hit_row).bco =bank_SVTDgtz.getInt("bco", svtTrackHits.get(hit_row).id -1);
+                    svtTrackHits.get(hit_row).hitN =bank_SVTDgtz.getInt("hitn", svtTrackHits.get(hit_row).id -1);
                 }
-                svt_track_hits_.get(hit_row).cross_id_=cross_id_;
-                svt_track_hits_.get(hit_row).trj_id_=trj_id_;
-                svt_track_hits_.get(hit_row).track_id_=track_id_;
-                if(print) svt_track_hits_.get(hit_row).Show();
+                svtTrackHits.get(hit_row).crossId = crossId;
+                svtTrackHits.get(hit_row).trjId = trjId;
+                svtTrackHits.get(hit_row).trackId = trackId;
+                if(print) svtTrackHits.get(hit_row).Show();
             }
         }
     }
 
     public void AddTrackHit() {
         SVTHit svtHit = new SVTHit();
-        svt_track_hits_.add(svtHit);
-        n_track_hits_=svt_track_hits_.size();
+        svtTrackHits.add(svtHit);
+        nTrackHits = svtTrackHits.size();
     }
 
     void Show() {
-        System.out.println("Cluster " + id_ + " " + sector_ + " " + layer_ + " " + size_ + " " + e_tot_ + " " +
-                seed_e_ + " " + seed_strip_ + " " + centroid_ + " h " + hit1_id_ + " " + hit2_id_ + " " + hit3_id_ + " " +
-                hit4_id_ + " " + hit5_id_ + " crId " + cross_id_ + " trId " + track_id_ + " trjId " + trj_id_);
+        System.out.println("Cluster " + id + " " + sector + " " + layer + " " + size + " " + eTot + " " +
+                seedE + " " + seedStrip + " " + centroid + " h " + hit1Id + " " + hit2Id + " " + hit3Id + " " +
+                hit4Id + " " + hit5Id + " crId " + crossId + " trId " + trackId + " trjId " + trjId);
     }
 }

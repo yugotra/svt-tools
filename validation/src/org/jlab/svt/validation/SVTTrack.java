@@ -5,9 +5,39 @@ import org.jlab.evio.clas12.EvioDataEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-class SVTCosmicTrack {
+class SVTTrack {
 
     int id;
+    int fittingMethod;
+    double cX;
+    double cY;
+    double cZ;
+    double cUX;
+    double cUY;
+    double cUZ;
+    int q;
+    double p;
+    double pT;
+    double phi0;
+    double tanDip;
+    double z0;
+    double d0;
+    double covD02;
+    double covD0Phi0;
+    double covD0Rho;
+    double covPhi02;
+    double covPhi0Rho;
+    double covRho2;
+    double covZ02;
+    double covTanDip2;
+    int[] crossId;
+
+    int nTrackHits;
+    int nTrackClusters;
+    int nTrackCrosses;
+    ArrayList<SVTCross> svtTrackCrosses;
+    SVTTrajectory svtTrajectory;
+
     double trklineYxSlope;
     double trklineYxInterc;
     double trklineYzSlope;
@@ -16,29 +46,47 @@ class SVTCosmicTrack {
     double phi;
     double kfChi2;
     int kfNdf;
-    int[] crossId;
-    int nTrackHits;
-    int nTrackClusters;
-    int nTrackCrosses;
-    ArrayList<SVTCross> svtTrackCrosses;
-    SVTTrajectory svtTrajectory;
 
-    public SVTCosmicTrack() {
-        id =-1;
-        trklineYxSlope =-1;
-        trklineYxInterc =-1;
-        trklineYzSlope =-1;
-        trklineYzInterc =-1;
-        theta =-1;
-        phi =-1;
-        kfChi2 =-1;
-        kfNdf =-1;
-        crossId = new int[Constants.NLAYERS];
-        for(int i=0;i<Constants.NLAYERS;++i) crossId[i]=-1;
+    public SVTTrack() {
+        id = -1;
+        fittingMethod = -1;
+        cX = -1;
+        cY = -1;
+        cZ = -1;
+        cUX = -1;
+        cUY = -1;
+        cUZ = -1;
+        int q = -1;
+        p = -1;
+        pT = -1;
+        phi0 = -1;
+        tanDip = -1;
+        z0 = -1;
+        d0 = -1;
+        covD02 = -1;
+        covD0Phi0 = -1;
+        covD0Rho = -1;
+        covPhi02 = -1;
+        covPhi0Rho = -1;
+        covRho2 = -1;
+        covZ02 = -1;
+        covTanDip2 = -1;
+        crossId = new int[Constants.NREGIONS];
+        for(int i=0;i<Constants.NREGIONS;++i) crossId[i] = -1;
+
         svtTrackCrosses = new ArrayList<>();
-        nTrackHits =0;
-        nTrackClusters =0;
-        nTrackCrosses =0;
+        nTrackHits = 0;
+        nTrackClusters = 0;
+        nTrackCrosses = 0;
+
+        trklineYxSlope = -1;
+        trklineYxInterc = -1;
+        trklineYzSlope = -1;
+        trklineYzInterc = -1;
+        theta = -1;
+        phi = -1;
+        kfChi2 = -1;
+        kfNdf = -1;
     }
 
     void ReadTrackCrosses(EvioDataEvent event, int crossId, boolean print) {
@@ -78,7 +126,7 @@ class SVTCosmicTrack {
 
 
                 if(svtTrajectory.GetIdByModule(id,layer,sector)!=-1) {
-                svtTrackCrosses.get(nTrackCrosses-1).trjId[i] = svtTrajectory.GetIdByModule(id, layer, sector);
+                    svtTrackCrosses.get(nTrackCrosses-1).trjId[i] = svtTrajectory.GetIdByModule(id, layer, sector);
                 }
                 else svtTrackCrosses.get(nTrackCrosses-1).trjId[i] = 0;
 // !!!!!!!!!!!!! temporary to kludge the bug with track id in traj bank
@@ -89,7 +137,7 @@ class SVTCosmicTrack {
 
 
 
-                        nTrackClusters += svtTrackCrosses.get(nTrackCrosses-1).nTrackClusters;
+            nTrackClusters += svtTrackCrosses.get(nTrackCrosses-1).nTrackClusters;
             nTrackHits += svtTrackCrosses.get(nTrackCrosses-1).nTrackHits;
             if(print) svtTrackCrosses.get(nTrackCrosses-1).Show();
         }

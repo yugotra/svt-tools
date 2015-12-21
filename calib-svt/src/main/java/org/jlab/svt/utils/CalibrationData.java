@@ -79,24 +79,11 @@ public class CalibrationData {
             func.setParameter(2, dataX[index]);
             double spread=5;
             func.setParLimits(2, dataX[index]-spread, dataX[index]+spread);
-//            switch (loop) {
-//                case 0:
-//                    func.setParameter(2, 75.0);
-//                    func.setParLimits(2, 55.0, 85.0);
-//                    break;
-//                case 1:
-//                    func.setParameter(2, 100.0);
-//                    func.setParLimits(2, 80.0, 115.0);
-//                    break;
-//                case 2:
-//                    func.setParameter(2, 125.0);
-//                    func.setParLimits(2, 110.0, 135.0);
-//                    break;
-//            }
             func.setParameter(0, 0.0);
             func.setParameter(1, 0.5);
             func.setParameter(3, 7.0);
             
+//            func.setParLimits(0, -0.01, 0.01);
             func.setParLimits(0, -0.2, 0.2);
             func.setParLimits(1, 0.4, 0.6);
 //            func.setParLimits(1, 0.49, 0.51);

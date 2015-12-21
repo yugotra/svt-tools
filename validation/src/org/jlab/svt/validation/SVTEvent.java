@@ -23,6 +23,7 @@ public class SVTEvent {
     static int nHits;
     static int nDgtzs;
     static ArrayList<SVTCosmicTrack> svtCosmicTracks;
+    static ArrayList<SVTTrack> svtTracks;
     static ArrayList <SVTTrajectory> svtTrajectories;
     static ArrayList <SVTCross> svtTrackCrosses;
     static ArrayList <SVTCluster> svtTrackClusters;
@@ -36,6 +37,8 @@ public class SVTEvent {
     public SVTEvent(){
         svtCosmicTracks = new ArrayList<>();
         svtCosmicTracks.clear();
+        svtTracks = new ArrayList<>();
+        svtTracks.clear();
         svtTrajectories = new ArrayList<>();
         svtTrajectories.clear();
         svtTrackCrosses = new ArrayList<>();
@@ -70,149 +73,149 @@ public class SVTEvent {
         return svtCosmicTracks;
     }
 
-    public void SetEventNumber(long event_nr) {
-        eventNr =event_nr;
+    public void SetEventNumber(long eventNr) {
+        SVTEvent.eventNr =eventNr;
     }
 
     public void FillEventHistos(EvioDataEvent event, SVTHistos svthistos) {
 
         if(event.hasBank("BSTRec::Trajectory")){
-            EvioDataBank bank_SVTTrajectory = (EvioDataBank) event.getBank("BSTRec::Trajectory");
-            int nrows=bank_SVTTrajectory.rows();
-            for(int row = 0; row < nrows; row++){
-                int sector=bank_SVTTrajectory.getInt("SectorTrackIntersPlane",row);
-                int layer=bank_SVTTrajectory.getInt("LayerTrackIntersPlane",row);
-                double phi=bank_SVTTrajectory.getDouble("PhiTrackIntersPlane",row);
-                double theta=bank_SVTTrajectory.getDouble("ThetaTrackIntersPlane",row);
-                double angle_3d=bank_SVTTrajectory.getDouble("trkToMPlnAngl",row);
+            EvioDataBank bankSVTTrajectory = (EvioDataBank) event.getBank("BSTRec::Trajectory");
+            int nRows=bankSVTTrajectory.rows();
+            for(int row = 0; row < nRows; row++){
+                int sector=bankSVTTrajectory.getInt("SectorTrackIntersPlane",row);
+                int layer=bankSVTTrajectory.getInt("LayerTrackIntersPlane",row);
+                double phi=bankSVTTrajectory.getDouble("PhiTrackIntersPlane",row);
+                double theta=bankSVTTrajectory.getDouble("ThetaTrackIntersPlane",row);
+                double angle3D=bankSVTTrajectory.getDouble("trkToMPlnAngl",row);
             }
         }
         if(event.hasBank("BSTRec::Crosses")){
-            EvioDataBank bank_SVTCross = (EvioDataBank) event.getBank("BSTRec::Crosses");
-            int nrows=bank_SVTCross.rows();
-            svthistos.histoMap.get("event_crossMultiplicity").h_.fill(nrows);
-            for(int row = 0; row < nrows; ++row){
-                double cross_x=bank_SVTCross.getDouble("x",row);
-                double err_x=bank_SVTCross.getDouble("err_x",row);
-                double cross_y=bank_SVTCross.getDouble("y",row);
-                double err_y=bank_SVTCross.getDouble("err_y",row);
-                double cross_z=bank_SVTCross.getDouble("z",row);
-                double err_z=bank_SVTCross.getDouble("err_z",row);
-                svthistos.histoMap.get("event_crossX").h_.fill(cross_x);
-                svthistos.histoMap.get("event_crossY").h_.fill(cross_y);
-                svthistos.histoMap.get("event_crossZ").h_.fill(cross_z);
-                svthistos.histoMap.get("event_crossErrX").h_.fill(err_x);
-                svthistos.histoMap.get("event_crossErrY").h_.fill(err_y);
-                svthistos.histoMap.get("event_crossErrZ").h_.fill(err_z);
+            EvioDataBank bankSVTCross = (EvioDataBank) event.getBank("BSTRec::Crosses");
+            int nRows=bankSVTCross.rows();
+            svthistos.histoMap.get("event_crossMultiplicity").h.fill(nRows);
+            for(int row = 0; row < nRows; ++row){
+                double crossX=bankSVTCross.getDouble("x",row);
+                double errX=bankSVTCross.getDouble("errX",row);
+                double crossY=bankSVTCross.getDouble("y",row);
+                double errY=bankSVTCross.getDouble("errY",row);
+                double crossZ=bankSVTCross.getDouble("z",row);
+                double errZ=bankSVTCross.getDouble("errZ",row);
+                svthistos.histoMap.get("event_crossX").h.fill(crossX);
+                svthistos.histoMap.get("event_crossY").h.fill(crossY);
+                svthistos.histoMap.get("event_crossZ").h.fill(crossZ);
+                svthistos.histoMap.get("event_crossErrX").h.fill(errX);
+                svthistos.histoMap.get("event_crossErrY").h.fill(errY);
+                svthistos.histoMap.get("event_crossErrZ").h.fill(errZ);
             }
         }
         if(event.hasBank("BSTRec::Clusters")){
-            EvioDataBank bank_SVTCluster = (EvioDataBank) event.getBank("BSTRec::Clusters");
-            int nrows=bank_SVTCluster.rows();
-            svthistos.histoMap.get("event_clusterMultiplicity").h_.fill(nrows);
-            for(int row = 0; row < nrows; ++row){
-                int cluster_size=bank_SVTCluster.getInt("size",row);
-                double cluster_charge=bank_SVTCluster.getDouble("ETot",row);
-                double seed_charge=bank_SVTCluster.getDouble("seedE",row);
-                int seed=bank_SVTCluster.getInt("seedStrip",row);
-                double centroid=bank_SVTCluster.getDouble("centroid",row);
-                svthistos.histoMap.get("event_centroid").h_.fill(centroid);
-                svthistos.histoMap.get("event_clusterCharge").h_.fill(cluster_charge);
-                svthistos.histoMap.get("event_seedCharge").h_.fill(seed_charge);
-                svthistos.histoMap.get("event_seedStrip").h_.fill(seed);
-                svthistos.histoMap.get("event_stripMultiplicity").h_.fill(cluster_size);
+            EvioDataBank bankSVTCluster = (EvioDataBank) event.getBank("BSTRec::Clusters");
+            int nRows=bankSVTCluster.rows();
+            svthistos.histoMap.get("event_clusterMultiplicity").h.fill(nRows);
+            for(int row = 0; row < nRows; ++row){
+                int clusterSize=bankSVTCluster.getInt("size",row);
+                double clusterCharge=bankSVTCluster.getDouble("ETot",row);
+                double seedCharge=bankSVTCluster.getDouble("seedE",row);
+                int seed=bankSVTCluster.getInt("seedStrip",row);
+                double centroid=bankSVTCluster.getDouble("centroid",row);
+                svthistos.histoMap.get("event_centroid").h.fill(centroid);
+                svthistos.histoMap.get("event_clusterCharge").h.fill(clusterCharge);
+                svthistos.histoMap.get("event_seedCharge").h.fill(seedCharge);
+                svthistos.histoMap.get("event_seedStrip").h.fill(seed);
+                svthistos.histoMap.get("event_stripMultiplicity").h.fill(clusterSize);
             }
         }
         if(event.hasBank("BSTRec::Hits")){
-            EvioDataBank bank_SVTHit = (EvioDataBank) event.getBank("BSTRec::Hits");
-            int nrows=bank_SVTHit.rows();
-            svthistos.histoMap.get("event_hitMultiplicity").h_.fill(nrows);
-            for(int row = 0; row < nrows; ++row){
-                int sector=bank_SVTHit.getInt("sector",row);
-                int layer=bank_SVTHit.getInt("layer",row);
-                int strip=bank_SVTHit.getInt("strip",row);
-                svthistos.histoMap.get("event_hitStrip").h_.fill(strip);
-                svthistos.histoMap.get("event_occupancy_sensor").h2_.fill(strip,Sensor(layer,sector));
+            EvioDataBank bankSVTHit = (EvioDataBank) event.getBank("BSTRec::Hits");
+            int nRows=bankSVTHit.rows();
+            svthistos.histoMap.get("event_hitMultiplicity").h.fill(nRows);
+            for(int row = 0; row < nRows; ++row){
+                int sector=bankSVTHit.getInt("sector",row);
+                int layer=bankSVTHit.getInt("layer",row);
+                int strip=bankSVTHit.getInt("strip",row);
+                svthistos.histoMap.get("event_hitStrip").h.fill(strip);
+                svthistos.histoMap.get("event_occupancy_sensor").h2.fill(strip,Sensor(layer,sector));
             }
         }
         if(event.hasBank("BST::dgtz")) {
-            EvioDataBank bank_SVTDgtz = (EvioDataBank) event.getBank("BST::dgtz");
-            int nrows=bank_SVTDgtz.rows();
-            for(int row = 0; row < nrows; ++row){
-                int strip=bank_SVTDgtz.getInt("strip",row);
-                int adc=bank_SVTDgtz.getInt("ADC",row);
-                int bco=bank_SVTDgtz.getInt("bco",row);
-                svthistos.histoMap.get("event_dgtzStrip").h_.fill(strip);
-                svthistos.histoMap.get("event_hitAdc").h_.fill(adc);
-                svthistos.histoMap.get("event_hitBco").h_.fill(bco);
+            EvioDataBank bankSVTDgtz = (EvioDataBank) event.getBank("BST::dgtz");
+            int nRows=bankSVTDgtz.rows();
+            for(int row = 0; row < nRows; ++row){
+                int strip=bankSVTDgtz.getInt("strip",row);
+                int adc=bankSVTDgtz.getInt("ADC",row);
+                int bco=bankSVTDgtz.getInt("bco",row);
+                svthistos.histoMap.get("event_dgtzStrip").h.fill(strip);
+                svthistos.histoMap.get("event_hitAdc").h.fill(adc);
+                svthistos.histoMap.get("event_hitBco").h.fill(bco);
             }
         }
     }
 
     public void FillOffTrackHistos(SVTHistos svthistos) {
 
-        svthistos.histoMap.get("off_crossMultiplicity").h_.fill(nOfftrackCrosses);
-        svthistos.histoMap.get("off_clusterMultiplicity").h_.fill(nOfftrackClusters);
-        svthistos.histoMap.get("off_hitMultiplicity").h_.fill(nOfftrackHits);
+        svthistos.histoMap.get("off_crossMultiplicity").h.fill(nOfftrackCrosses);
+        svthistos.histoMap.get("off_clusterMultiplicity").h.fill(nOfftrackClusters);
+        svthistos.histoMap.get("off_hitMultiplicity").h.fill(nOfftrackHits);
         for(int i = 0; i< svtOfftrackCrosses.size(); ++i) {
-            double cross_x= svtOfftrackCrosses.get(i).x_;
-            double cross_y= svtOfftrackCrosses.get(i).y_;
-            double cross_z= svtOfftrackCrosses.get(i).z_;
-            double err_x= svtOfftrackCrosses.get(i).err_x_;
-            double err_y= svtOfftrackCrosses.get(i).err_y_;
-            double err_z= svtOfftrackCrosses.get(i).err_z_;
-            svthistos.histoMap.get("off_crossX").h_.fill(cross_x);
-            svthistos.histoMap.get("off_crossY").h_.fill(cross_y);
-            svthistos.histoMap.get("off_crossZ").h_.fill(cross_z);
-            svthistos.histoMap.get("off_crossErrX").h_.fill(err_x);
-            svthistos.histoMap.get("off_crossErrY").h_.fill(err_y);
-            svthistos.histoMap.get("off_crossErrZ").h_.fill(err_z);
+            double cross_x= svtOfftrackCrosses.get(i).x;
+            double cross_y= svtOfftrackCrosses.get(i).y;
+            double cross_z= svtOfftrackCrosses.get(i).z;
+            double err_x= svtOfftrackCrosses.get(i).errX;
+            double err_y= svtOfftrackCrosses.get(i).errY;
+            double err_z= svtOfftrackCrosses.get(i).errZ;
+            svthistos.histoMap.get("off_crossX").h.fill(cross_x);
+            svthistos.histoMap.get("off_crossY").h.fill(cross_y);
+            svthistos.histoMap.get("off_crossZ").h.fill(cross_z);
+            svthistos.histoMap.get("off_crossErrX").h.fill(err_x);
+            svthistos.histoMap.get("off_crossErrY").h.fill(err_y);
+            svthistos.histoMap.get("off_crossErrZ").h.fill(err_z);
         }
         for(int i = 0; i< svtOfftrackClusters.size(); ++i) {
-            int layer= svtOfftrackClusters.get(i).layer_;
-            int sector= svtOfftrackClusters.get(i).sector_;
-            int seed= svtOfftrackClusters.get(i).seed_strip_;
-            double centroid= svtOfftrackClusters.get(i).centroid_;
-            double seed_charge= svtOfftrackClusters.get(i).seed_e_;
-            double cluster_charge= svtOfftrackClusters.get(i).e_tot_;
-            double cluster_size= svtOfftrackClusters.get(i).size_;
-            svthistos.histoMap.get("off_clusterCharge").h_.fill(cluster_charge);
-            svthistos.histoMap.get("off_seedStrip").h_.fill(seed);
-            svthistos.histoMap.get("off_seedCharge").h_.fill(seed_charge);
-            svthistos.histoMap.get("off_centroid").h_.fill(centroid);
-            svthistos.histoSensorMap.get("off_seedCharge").h[layer-1][sector-1].fill(seed_charge);
-            svthistos.histoSensorMap.get("off_clusterCharge").h[layer-1][sector-1].fill(cluster_charge);
+            int layer= svtOfftrackClusters.get(i).layer;
+            int sector= svtOfftrackClusters.get(i).sector;
+            int seed= svtOfftrackClusters.get(i).seedStrip;
+            double centroid= svtOfftrackClusters.get(i).centroid;
+            double seedCharge= svtOfftrackClusters.get(i).seedE;
+            double clusterCharge= svtOfftrackClusters.get(i).eTot;
+            double clusterSize= svtOfftrackClusters.get(i).size;
+            svthistos.histoMap.get("off_clusterCharge").h.fill(clusterCharge);
+            svthistos.histoMap.get("off_seedStrip").h.fill(seed);
+            svthistos.histoMap.get("off_seedCharge").h.fill(seedCharge);
+            svthistos.histoMap.get("off_centroid").h.fill(centroid);
+            svthistos.histoSensorMap.get("off_seedCharge").h[layer-1][sector-1].fill(seedCharge);
+            svthistos.histoSensorMap.get("off_clusterCharge").h[layer-1][sector-1].fill(clusterCharge);
 
 
             if(nTracks ==1) {
                 // System.out.println(eventNr+" "+layer+" "+sector);
-                int trj_id=Trajectory(0).GetIdByModule(0,layer,sector);
-                if(trj_id!=-1) {
-                    double local_angle_3d=Trajectory(0).angle_3d_.get(trj_id);
-                    // System.out.println(trj_id+" "+local_angle_3d);
+                int trjId=Trajectory(0).GetIdByModule(0,layer,sector);
+                if(trjId!=-1) {
+                    double local_angle_3d=Trajectory(0).angle3D.get(trjId);
+                    // System.out.println(trjId+" "+local_angle_3d);
 //                    if(Math.abs(local_angle_3d-90)>45)
                     svthistos.histoSensorMap.get("off_seedStrip").h[layer-1][sector-1].fill(seed);
 //                    if(seed==190&&sector==10&&layer==1) System.out.println(eventNr);
                 }
             }
 
-            svthistos.histoSensorMap.get("off_stripMultiplicity").h[layer-1][sector-1].fill(cluster_size);
-            svthistos.histoMap.get("off_stripMultiplicity").h_.fill(cluster_size);
+            svthistos.histoSensorMap.get("off_stripMultiplicity").h[layer-1][sector-1].fill(clusterSize);
+            svthistos.histoMap.get("off_stripMultiplicity").h.fill(clusterSize);
             int region=(layer%2==0 ? layer/2 : (layer+1)/2);
-            svthistos.histoRegionMap.get("off_clusterCharge").h[region-1].fill(cluster_charge);
+            svthistos.histoRegionMap.get("off_clusterCharge").h[region-1].fill(clusterCharge);
         }
         for(int i = 0; i< svtOfftrackHits.size(); ++i) {
-            int layer= svtOfftrackHits.get(i).layer_;
-            int sector= svtOfftrackHits.get(i).sector_;
-            int strip= svtOfftrackHits.get(i).strip_;
+            int layer= svtOfftrackHits.get(i).layer;
+            int sector= svtOfftrackHits.get(i).sector;
+            int strip= svtOfftrackHits.get(i).strip;
             int channel=(layer%2==0 ? strip+255 : strip-1);
-            int adc= svtOfftrackHits.get(i).adc_;
-            int bco= svtOfftrackHits.get(i).bco_;
-            svthistos.histoMap.get("off_hitStrip").h_.fill(strip);
-            svthistos.histoMap.get("off_hitAdc").h_.fill(adc);
-            svthistos.histoMap.get("off_hitBco").h_.fill(bco);
-            svthistos.histoMap.get("off_occupancy_module").h2_.fill(channel,Module(layer,sector));
-            svthistos.histoMap.get("off_occupancy_sensor").h2_.fill(strip,Sensor(layer,sector));
+            int adc= svtOfftrackHits.get(i).adc;
+            int bco= svtOfftrackHits.get(i).bco;
+            svthistos.histoMap.get("off_hitStrip").h.fill(strip);
+            svthistos.histoMap.get("off_hitAdc").h.fill(adc);
+            svthistos.histoMap.get("off_hitBco").h.fill(bco);
+            svthistos.histoMap.get("off_occupancy_module").h2.fill(channel,Module(layer,sector));
+            svthistos.histoMap.get("off_occupancy_sensor").h2.fill(strip,Sensor(layer,sector));
             svthistos.histoSensorMap.get("off_adc").h[layer-1][sector-1].fill(adc);
             svthistos.histoSensorMap.get("off_strip").h[layer-1][sector-1].fill(strip);
             // if(layer==1&&sector==2&&strip==15) println(eventNr);
@@ -221,132 +224,132 @@ public class SVTEvent {
 
     public void FillTrackHistos(SVTHistos svthistos) {
 
-        svthistos.histoMap.get("trackMultiplicity").h_.fill(nTracks);
-        svthistos.histoMap.get("crossMultiplicity").h_.fill(nTrackCrosses);
-        svthistos.histoMap.get("clusterMultiplicity").h_.fill(nTrackClusters);
-        svthistos.histoMap.get("hitMultiplicity").h_.fill(nTrackHits);
+        svthistos.histoMap.get("trackMultiplicity").h.fill(nTracks);
+        svthistos.histoMap.get("crossMultiplicity").h.fill(nTrackCrosses);
+        svthistos.histoMap.get("clusterMultiplicity").h.fill(nTrackClusters);
+        svthistos.histoMap.get("hitMultiplicity").h.fill(nTrackHits);
         for(int i = 0; i< nTracks; ++i) {
-            if(TrackClusters(i,0).get(0).trj_id_==-1) return; // catch for bad Trajectory bank
-            double phi=Tracks().get(i).phi_;
-            double theta=Tracks().get(i).theta_;
-            double kf_chi2=Tracks().get(i).kf_chi2_;
-            int kf_ndf=Tracks().get(i).kf_ndf_;
-            svthistos.histoMap.get("normChi2").h_.fill(kf_chi2/(double)kf_ndf);
-            svthistos.histoMap.get("phi").h_.fill(phi);
-            svthistos.histoMap.get("theta").h_.fill(theta);
-            svthistos.histoMap.get("thetaPhi").h2_.fill(phi,theta);
+            if(TrackClusters(i,0).get(0).trjId ==-1) return; // catch for bad Trajectory bank
+            double phi=Tracks().get(i).phi;
+            double theta=Tracks().get(i).theta;
+            double kfChi2=Tracks().get(i).kfChi2;
+            int kfNdf=Tracks().get(i).kfNdf;
+            svthistos.histoMap.get("normChi2").h.fill(kfChi2/(double)kfNdf);
+            svthistos.histoMap.get("phi").h.fill(phi);
+            svthistos.histoMap.get("theta").h.fill(theta);
+            svthistos.histoMap.get("thetaPhi").h2.fill(phi,theta);
             for(int j=0;j<TrackCrosses(i).size();++j) {
-                int region=TrackCrosses(i).get(j).region_;
-                int sector=TrackCrosses(i).get(j).sector_;
-                double cross_x=TrackCrosses(i).get(j).x_;
-                double cross_y=TrackCrosses(i).get(j).y_;
-                double cross_z=TrackCrosses(i).get(j).z_;
-                double err_x=TrackCrosses(i).get(j).err_x_;
-                double err_y=TrackCrosses(i).get(j).err_y_;
-                double err_z=TrackCrosses(i).get(j).err_z_;
-                svthistos.histoMap.get("crossX").h_.fill(cross_x);
-                svthistos.histoMap.get("crossY").h_.fill(cross_y);
-                svthistos.histoMap.get("crossZ").h_.fill(cross_z);
-                svthistos.histoMap.get("crossErrX").h_.fill(err_x);
-                svthistos.histoMap.get("crossErrY").h_.fill(err_y);
-                svthistos.histoMap.get("crossErrZ").h_.fill(err_z);
-                svthistos.histoRegionMap.get("crossX").h[region-1].fill(cross_x);
-                svthistos.histoRegionMap.get("crossY").h[region-1].fill(cross_y);
-                svthistos.histoRegionMap.get("crossZ").h[region-1].fill(cross_z);
-                svthistos.histoRegionMap.get("crossErrX").h[region-1].fill(err_x);
-                svthistos.histoRegionMap.get("crossErrY").h[region-1].fill(err_y);
-                svthistos.histoRegionMap.get("crossErrZ").h[region-1].fill(err_z);
-                svthistos.histoModuleMap.get("crossX").h_[region-1][sector-1].fill(cross_x);
-                svthistos.histoModuleMap.get("crossY").h_[region-1][sector-1].fill(cross_y);
-                svthistos.histoModuleMap.get("crossZ").h_[region-1][sector-1].fill(cross_z);
-                svthistos.histoModuleMap.get("crossErrX").h_[region-1][sector-1].fill(err_x);
-                svthistos.histoModuleMap.get("crossErrY").h_[region-1][sector-1].fill(err_y);
-                svthistos.histoModuleMap.get("crossErrZ").h_[region-1][sector-1].fill(err_z);
+                int region=TrackCrosses(i).get(j).region;
+                int sector=TrackCrosses(i).get(j).sector;
+                double crossX=TrackCrosses(i).get(j).x;
+                double crossY=TrackCrosses(i).get(j).y;
+                double crossZ=TrackCrosses(i).get(j).z;
+                double errX=TrackCrosses(i).get(j).errX;
+                double errY=TrackCrosses(i).get(j).errY;
+                double errZ=TrackCrosses(i).get(j).errZ;
+                svthistos.histoMap.get("crossX").h.fill(crossX);
+                svthistos.histoMap.get("crossY").h.fill(crossY);
+                svthistos.histoMap.get("crossZ").h.fill(crossZ);
+                svthistos.histoMap.get("crossErrX").h.fill(errX);
+                svthistos.histoMap.get("crossErrY").h.fill(errY);
+                svthistos.histoMap.get("crossErrZ").h.fill(errZ);
+                svthistos.histoRegionMap.get("crossX").h[region-1].fill(crossX);
+                svthistos.histoRegionMap.get("crossY").h[region-1].fill(crossY);
+                svthistos.histoRegionMap.get("crossZ").h[region-1].fill(crossZ);
+                svthistos.histoRegionMap.get("crossErrX").h[region-1].fill(errX);
+                svthistos.histoRegionMap.get("crossErrY").h[region-1].fill(errY);
+                svthistos.histoRegionMap.get("crossErrZ").h[region-1].fill(errZ);
+                svthistos.histoModuleMap.get("crossX").h_[region-1][sector-1].fill(crossX);
+                svthistos.histoModuleMap.get("crossY").h_[region-1][sector-1].fill(crossY);
+                svthistos.histoModuleMap.get("crossZ").h_[region-1][sector-1].fill(crossZ);
+                svthistos.histoModuleMap.get("crossErrX").h_[region-1][sector-1].fill(errX);
+                svthistos.histoModuleMap.get("crossErrY").h_[region-1][sector-1].fill(errY);
+                svthistos.histoModuleMap.get("crossErrZ").h_[region-1][sector-1].fill(errZ);
                 for(int k=0;k<TrackClusters(i,j).size();++k) {
 
 
 
 
-                    int trj_id;
-                    if(TrackClusters(i,j).get(k).trj_id_!=-1) trj_id=TrackClusters(i,j).get(k).trj_id_;
-                    else trj_id=0;
+                    int trjId;
+                    if(TrackClusters(i,j).get(k).trjId !=-1) trjId=TrackClusters(i,j).get(k).trjId;
+                    else trjId=0;
 // !!!!!!!!!!!!! temporary to kludge the bug with track id in traj bank
 
 
-//                    System.out.println(i+" "+j+" "+k+" "+Trajectory(i).phi_.size()+" "+TrackClusters(i,j).get(k).trj_id_);
+//                    System.out.println(i+" "+j+" "+k+" "+Trajectory(i).phi.size()+" "+TrackClusters(i,j).get(k).trjId);
 
 
 
-                    double local_phi=Trajectory(i).phi_.get(trj_id);
-                    double local_theta=Trajectory(i).theta_.get(trj_id);
-                    double local_angle_3d=Trajectory(i).angle_3d_.get(trj_id);
-                    double local_x=Trajectory(i).x_.get(trj_id);
-                    double local_y=Trajectory(i).y_.get(trj_id);
-                    double local_z=Trajectory(i).z_.get(trj_id);
-                    int layer=TrackClusters(i,j).get(k).layer_;
-                    double cluster_charge=TrackClusters(i,j).get(k).e_tot_;
-                    int cluster_size=TrackClusters(i,j).get(k).size_;
-                    double centroid=TrackClusters(i,j).get(k).centroid_;
-                    double seed=TrackClusters(i,j).get(k).seed_strip_;
-                    double seed_charge=TrackClusters(i,j).get(k).seed_e_;
-                    svthistos.histoMap.get("centroid").h_.fill(centroid);
-                    svthistos.histoMap.get("clusterCharge").h_.fill(cluster_charge);
-                    svthistos.histoMap.get("seedCharge").h_.fill(seed_charge);
-                    svthistos.histoMap.get("seedStrip").h_.fill(seed);
-                    svthistos.histoMap.get("stripMultiplicity").h_.fill(cluster_size);
-                    if(!Double.isNaN(local_phi)) svthistos.histoMap.get("localPhi").h_.fill(local_phi);
-                    if(!Double.isNaN(local_theta)) svthistos.histoMap.get("localTheta").h_.fill(local_theta);
-                    if(!Double.isNaN(local_angle_3d)) {
-                        svthistos.histoMap.get("localTrackAngle").h_.fill(local_angle_3d);
-                        svthistos.histoMap.get("correctedClusterCharge").h_.fill(cluster_charge*Math.cos(local_angle_3d));
+                    double localPhi=Trajectory(i).phi.get(trjId);
+                    double localTheta=Trajectory(i).theta.get(trjId);
+                    double localAngle3D=Trajectory(i).angle3D.get(trjId);
+                    double localX=Trajectory(i).x.get(trjId);
+                    double localY=Trajectory(i).y.get(trjId);
+                    double localZ=Trajectory(i).z.get(trjId);
+                    int layer=TrackClusters(i,j).get(k).layer;
+                    double cluster_charge=TrackClusters(i,j).get(k).eTot;
+                    int clusterSize=TrackClusters(i,j).get(k).size;
+                    double centroid=TrackClusters(i,j).get(k).centroid;
+                    double seed=TrackClusters(i,j).get(k).seedStrip;
+                    double seedCharge=TrackClusters(i,j).get(k).seedE;
+                    svthistos.histoMap.get("centroid").h.fill(centroid);
+                    svthistos.histoMap.get("clusterCharge").h.fill(cluster_charge);
+                    svthistos.histoMap.get("seedCharge").h.fill(seedCharge);
+                    svthistos.histoMap.get("seedStrip").h.fill(seed);
+                    svthistos.histoMap.get("stripMultiplicity").h.fill(clusterSize);
+                    if(!Double.isNaN(localPhi)) svthistos.histoMap.get("localPhi").h.fill(localPhi);
+                    if(!Double.isNaN(localTheta)) svthistos.histoMap.get("localTheta").h.fill(localTheta);
+                    if(!Double.isNaN(localAngle3D)) {
+                        svthistos.histoMap.get("localTrackAngle").h.fill(localAngle3D);
+                        svthistos.histoMap.get("correctedClusterCharge").h.fill(cluster_charge*Math.cos(localAngle3D));
                     }
-                    if(!Double.isNaN(local_x)) svthistos.histoMap.get("localX").h_.fill(local_x);
-                    if(!Double.isNaN(local_y)) svthistos.histoMap.get("localY").h_.fill(local_y);
-                    if(!Double.isNaN(local_z)) svthistos.histoMap.get("localZ").h_.fill(local_z);
+                    if(!Double.isNaN(localX)) svthistos.histoMap.get("localX").h.fill(localX);
+                    if(!Double.isNaN(localY)) svthistos.histoMap.get("localY").h.fill(localY);
+                    if(!Double.isNaN(localZ)) svthistos.histoMap.get("localZ").h.fill(localZ);
                     svthistos.histoSensorMap.get("clusterCharge").h[layer-1][sector-1].fill(cluster_charge);
-                    svthistos.histoSensorMap.get("correctedClusterCharge").h[layer-1][sector-1].fill(cluster_charge*Math.cos(local_angle_3d));
-                    svthistos.histoSensorMap.get("seedCharge").h[layer-1][sector-1].fill(seed_charge);
-                    svthistos.histoSensorMap.get("stripMultiplicity").h[layer-1][sector-1].fill(cluster_size);
-                    svthistos.histoSensorMap.get("localPhi").h[layer-1][sector-1].fill(local_phi);
-                    svthistos.histoSensorMap.get("localTheta").h[layer-1][sector-1].fill(local_theta);
-                    svthistos.histoSensorMap.get("localTrackAngle").h[layer-1][sector-1].fill(local_angle_3d);
+                    svthistos.histoSensorMap.get("correctedClusterCharge").h[layer-1][sector-1].fill(cluster_charge*Math.cos(localAngle3D));
+                    svthistos.histoSensorMap.get("seedCharge").h[layer-1][sector-1].fill(seedCharge);
+                    svthistos.histoSensorMap.get("stripMultiplicity").h[layer-1][sector-1].fill(clusterSize);
+                    svthistos.histoSensorMap.get("localPhi").h[layer-1][sector-1].fill(localPhi);
+                    svthistos.histoSensorMap.get("localTheta").h[layer-1][sector-1].fill(localTheta);
+                    svthistos.histoSensorMap.get("localTrackAngle").h[layer-1][sector-1].fill(localAngle3D);
                     svthistos.histoModuleMap.get("clusterCharge").h_[region-1][sector-1].fill(cluster_charge);
                     svthistos.histoRegionMap.get("clusterCharge").h[region-1].fill(cluster_charge);
-                    svthistos.histoRegionMap.get("localPhi").h[region-1].fill(local_phi);
-                    svthistos.histoRegionMap.get("localTheta").h[region-1].fill(local_theta);
-                    svthistos.histoRegionMap.get("localTrackAngle").h[region-1].fill(local_angle_3d);
+                    svthistos.histoRegionMap.get("localPhi").h[region-1].fill(localPhi);
+                    svthistos.histoRegionMap.get("localTheta").h[region-1].fill(localTheta);
+                    svthistos.histoRegionMap.get("localTrackAngle").h[region-1].fill(localAngle3D);
                     for(int l=0;l<TrackHits(i,j,k).size();++l) {
-                        int strip=TrackHits(i,j,k).get(l).strip_;
-                        int adc=TrackHits(i,j,k).get(l).adc_;
-                        int bco=TrackHits(i,j,k).get(l).bco_;
+                        int strip=TrackHits(i,j,k).get(l).strip;
+                        int adc=TrackHits(i,j,k).get(l).adc;
+                        int bco=TrackHits(i,j,k).get(l).bco;
                         int channel=(layer%2==0 ? strip+255 : strip-1);
-                        svthistos.histoMap.get("hitStrip").h_.fill(strip);
-                        svthistos.histoMap.get("hitAdc").h_.fill(adc);
-                        svthistos.histoMap.get("hitBco").h_.fill(bco);
-                        svthistos.histoMap.get("occupancy_module").h2_.fill(channel,Module(layer,sector));
-                        svthistos.histoMap.get("occupancy_sensor").h2_.fill(strip,Sensor(layer,sector));
+                        svthistos.histoMap.get("hitStrip").h.fill(strip);
+                        svthistos.histoMap.get("hitAdc").h.fill(adc);
+                        svthistos.histoMap.get("hitBco").h.fill(bco);
+                        svthistos.histoMap.get("occupancy_module").h2.fill(channel,Module(layer,sector));
+                        svthistos.histoMap.get("occupancy_sensor").h2.fill(strip,Sensor(layer,sector));
                         svthistos.histoSensorMap.get("strip").h[layer-1][sector-1].fill(strip);
                         svthistos.histoSensorMap.get("adc").h[layer-1][sector-1].fill(adc);
-                        double fit_residual=TrackHits(i,j,k).get(l).fit_residual_;
-                            svthistos.histoSensorMap.get("fitResidual").h[layer-1][sector-1].fill(fit_residual);
-                            svthistos.histoSensorMap.get("fitResidual_angle").h2[layer-1][sector-1].fill(local_angle_3d,fit_residual);
-                            svthistos.histoSensorMap.get("fitResidual_phi").h2[layer-1][sector-1].fill(local_phi,fit_residual);
-                            svthistos.histoSensorMap.get("fitResidual_theta").h2[layer-1][sector-1].fill(local_theta,fit_residual);
-                            svthistos.histoSensorMap.get("fitResidual_x").h2[layer-1][sector-1].fill(local_x,fit_residual);
-                            svthistos.histoSensorMap.get("fitResidual_y").h2[layer-1][sector-1].fill(local_y,fit_residual);
-                            svthistos.histoSensorMap.get("fitResidual_z").h2[layer-1][sector-1].fill(local_z,fit_residual);
-                        if(!Double.isNaN(local_phi)) {
-                            int angle_min=svthistos.histoLorentzMap.get("sizeAngle").angle_min_;
-                            int min_angle=svthistos.histoLorentzMap.get("sizeAngle").min_angle_;
-                            int angle_max=svthistos.histoLorentzMap.get("sizeAngle").angle_max_;
-                            int angle_space=svthistos.histoLorentzMap.get("sizeAngle").angle_space_;
-                            int array_size=svthistos.histoLorentzMap.get("sizeAngle").array_size_;
-                            angle_min=min_angle;
-                            angle_max = angle_min + angle_space;
-                            for(int jl = 0; jl < array_size; jl++){
-                                if((local_phi-90)<angle_max&&(local_phi-90)>angle_min) svthistos.histoLorentzMap.get("sizeAngle").h_[jl].fill(cluster_size);
-                                angle_min += angle_space;
-                                angle_max += angle_space;
+                        double fitResidual=TrackHits(i,j,k).get(l).fitResidual;
+                            svthistos.histoSensorMap.get("fitResidual").h[layer-1][sector-1].fill(fitResidual);
+                            svthistos.histoSensorMap.get("fitResidual_angle").h2[layer-1][sector-1].fill(localAngle3D,fitResidual);
+                            svthistos.histoSensorMap.get("fitResidual_phi").h2[layer-1][sector-1].fill(localPhi,fitResidual);
+                            svthistos.histoSensorMap.get("fitResidual_theta").h2[layer-1][sector-1].fill(localTheta,fitResidual);
+                            svthistos.histoSensorMap.get("fitResidual_x").h2[layer-1][sector-1].fill(localX,fitResidual);
+                            svthistos.histoSensorMap.get("fitResidual_y").h2[layer-1][sector-1].fill(localY,fitResidual);
+                            svthistos.histoSensorMap.get("fitResidual_z").h2[layer-1][sector-1].fill(localZ,fitResidual);
+                        if(!Double.isNaN(localPhi)) {
+                            int angleMin=svthistos.histoLorentzMap.get("sizeAngle").angle_min_;
+                            int minAngle=svthistos.histoLorentzMap.get("sizeAngle").min_angle_;
+                            int angleMax=svthistos.histoLorentzMap.get("sizeAngle").angle_max_;
+                            int angleSpace=svthistos.histoLorentzMap.get("sizeAngle").angle_space_;
+                            int arraySize=svthistos.histoLorentzMap.get("sizeAngle").array_size_;
+                            angleMin=minAngle;
+                            angleMax = angleMin + angleSpace;
+                            for(int jl = 0; jl < arraySize; jl++){
+                                if((localPhi-90)<angleMax&&(localPhi-90)>angleMin) svthistos.histoLorentzMap.get("sizeAngle").h_[jl].fill(clusterSize);
+                                angleMin += angleSpace;
+                                angleMax += angleSpace;
                             }//jl
                         }
                     }
@@ -355,10 +358,16 @@ public class SVTEvent {
         }//n_tracks
     }
 
-    public void AddTrack() {
+    public void AddCosmicTrack() {
         SVTCosmicTrack svtCosmicTrack = new SVTCosmicTrack();
         svtCosmicTracks.add(svtCosmicTrack);
         nTracks = svtCosmicTracks.size();
+    }
+
+    public void AddTrack() {
+        SVTTrack svtTrack = new SVTTrack();
+        svtTracks.add(svtTrack);
+        nTracks = svtTracks.size();
     }
 
     public void AddTrackCross() {
@@ -385,8 +394,8 @@ public class SVTEvent {
         nDgtzs = svtDgtzs.size();
     }
 
-    SVTTrajectory Trajectory(int track_id) {
-        return svtCosmicTracks.get(track_id).svt_trajectory_;
+    SVTTrajectory Trajectory(int trackId) {
+        return svtCosmicTracks.get(trackId).svtTrajectory;
     }
 
     public void AddOffTrackCross() {
@@ -411,16 +420,16 @@ public class SVTEvent {
         return svtCosmicTracks;
     }
 
-    static ArrayList <SVTCross> TrackCrosses(int track_id) {
-        return svtCosmicTracks.get(track_id).svt_track_crosses_;
+    static ArrayList <SVTCross> TrackCrosses(int trackId) {
+        return svtCosmicTracks.get(trackId).svtTrackCrosses;
     }
 
-    static ArrayList <SVTCluster> TrackClusters(int track_id, int cross_id) {
-        return svtCosmicTracks.get(track_id).svt_track_crosses_.get(cross_id).svt_track_clusters_;
+    static ArrayList <SVTCluster> TrackClusters(int trackId, int crossId) {
+        return svtCosmicTracks.get(trackId).svtTrackCrosses.get(crossId).svtTrackClusters;
     }
 
-    static ArrayList <SVTHit> TrackHits(int track_id, int cross_id, int cluster_id) {
-        return svtCosmicTracks.get(track_id).svt_track_crosses_.get(cross_id).svt_track_clusters_.get(cluster_id).svt_track_hits_;
+    static ArrayList <SVTHit> TrackHits(int trackId, int crossId, int clusterId) {
+        return svtCosmicTracks.get(trackId).svtTrackCrosses.get(crossId).svtTrackClusters.get(clusterId).svtTrackHits;
     }
 
     boolean SkipEvent(EvioDataEvent event, boolean print) {
@@ -430,26 +439,26 @@ public class SVTEvent {
         }
         else {
             EvioDataBank bank_SVTCosmics = (EvioDataBank) event.getBank("BSTRec::Cosmics");
-            int nrows=bank_SVTCosmics.rows();
-            if(nrows!=1) {
-                if(print) System.out.println(Constants.RED+nrows+"multiple tracks, skip..."+Constants.RESET);
+            int nRows=bank_SVTCosmics.rows();
+            if(nRows!=1) {
+                if(print) System.out.println(Constants.RED+nRows+"multiple tracks, skip..."+Constants.RESET);
                 return true; // 1 track per event
             }
             else{
-                ArrayList<Integer> track_crosses =new ArrayList<Integer>();
+                ArrayList<Integer> trackCrosses =new ArrayList<Integer>();
                 for(int i=0;i<Constants.NLAYERS;++i) {
                     String varname = String.format("Cross%d_ID", i+1);
-                    int cross_id=bank_SVTCosmics.getInt(varname,0); // get cross id's for the 1st track
-                    if(cross_id!=-1) track_crosses.add(cross_id);
+                    int crossId=bank_SVTCosmics.getInt(varname,0); // get cross id's for the 1st track
+                    if(crossId!=-1) trackCrosses.add(crossId);
                 }
-                if(track_crosses.size()!=8) {
-                    if(print) System.out.println(Constants.RED+nrows+"less than 8 crosses, skip..."+Constants.RESET);
+                if(trackCrosses.size()!=8) {
+                    if(print) System.out.println(Constants.RED+nRows+"less than 8 crosses, skip..."+Constants.RESET);
                     return true; // 8 crosses per track
                 }
                 else {
-                    Collections.sort(track_crosses);
-                    for(int i=0;i<track_crosses.size();++i) System.out.print(track_crosses.get(i)+" "); System.out.println("");
-                    for(int i=0;i<track_crosses.size();++i) if(track_crosses.get(i)!=i+1) {
+                    Collections.sort(trackCrosses);
+                    for(int i=0;i<trackCrosses.size();++i) System.out.print(trackCrosses.get(i)+" "); System.out.println("");
+                    for(int i=0;i<trackCrosses.size();++i) if(trackCrosses.get(i)!=i+1) {
                         // if(print)
                         System.out.println(Constants.RED+"no cross in every region, skip..."+Constants.RESET);
                         return true;
@@ -492,37 +501,83 @@ public class SVTEvent {
     }
 
     void ReadTracks(EvioDataEvent event, boolean print) {
-        if(event.hasBank("BSTRec::Cosmics")){
-            EvioDataBank bank_SVTCosmics = (EvioDataBank) event.getBank("BSTRec::Cosmics");
-            nTracks =bank_SVTCosmics.rows();
-            for(int row = 0; row < bank_SVTCosmics.rows(); ++row){
-                AddTrack();
-                svtCosmicTracks.get(row).id_=bank_SVTCosmics.getInt("ID",row);
-                svtCosmicTracks.get(row).trkline_yx_slope_=bank_SVTCosmics.getDouble("trkline_yx_slope",row);
-                svtCosmicTracks.get(row).trkline_yx_interc_=bank_SVTCosmics.getDouble("trkline_yx_interc",row);
-                svtCosmicTracks.get(row).trkline_yz_slope_=bank_SVTCosmics.getDouble("trkline_yz_slope",row);
-                svtCosmicTracks.get(row).trkline_yz_interc_=bank_SVTCosmics.getDouble("trkline_yz_interc",row);
-                svtCosmicTracks.get(row).phi_=bank_SVTCosmics.getDouble("phi",row);
-                svtCosmicTracks.get(row).theta_=bank_SVTCosmics.getDouble("theta",row);
-                svtCosmicTracks.get(row).kf_chi2_=bank_SVTCosmics.getDouble("KF_chi2",row);
-                // svtCosmicTracks.get(row).kf_ndf_=(int)bank_SVTCosmics.getDouble("KF_ndf",row);
-                svtCosmicTracks.get(row).kf_ndf_=bank_SVTCosmics.getInt("KF_ndf",row);
-                svtCosmicTracks.get(row).ReadTrackTrajectory(event, svtCosmicTracks.get(row).id_,print);
-                ArrayList<Integer> track_crosses =new ArrayList<Integer>();
-                for(int i=0;i<Constants.NLAYERS;++i) {
-                    String varname = String.format("Cross%d_ID", i+1);
-                    int cross_id=bank_SVTCosmics.getInt(varname,row);
-                    svtCosmicTracks.get(row).cross_id_[i]=cross_id;
-                    if(cross_id!=-1) track_crosses.add(cross_id);
+        if (event.hasBank("BSTRec::Cosmics")) {
+            EvioDataBank bankSVTCosmics = (EvioDataBank) event.getBank("BSTRec::Cosmics");
+            nTracks = bankSVTCosmics.rows();
+            for (int row = 0; row < bankSVTCosmics.rows(); ++row) {
+                AddCosmicTrack();
+                svtCosmicTracks.get(row).id = bankSVTCosmics.getInt("ID", row);
+                svtCosmicTracks.get(row).trklineYxSlope = bankSVTCosmics.getDouble("trkline_yx_slope", row);
+                svtCosmicTracks.get(row).trklineYxInterc = bankSVTCosmics.getDouble("trkline_yx_interc", row);
+                svtCosmicTracks.get(row).trklineYzSlope = bankSVTCosmics.getDouble("trkline_yz_slope", row);
+                svtCosmicTracks.get(row).trklineYzInterc = bankSVTCosmics.getDouble("trkline_yz_interc", row);
+                svtCosmicTracks.get(row).phi = bankSVTCosmics.getDouble("phi", row);
+                svtCosmicTracks.get(row).theta = bankSVTCosmics.getDouble("theta", row);
+                svtCosmicTracks.get(row).kfChi2 = bankSVTCosmics.getDouble("KF_chi2", row);
+                // svtCosmicTracks.get(row).kfNdf=(int)bankSVTCosmics.getDouble("KF_ndf",row);
+                svtCosmicTracks.get(row).kfNdf = bankSVTCosmics.getInt("KF_ndf", row);
+                svtCosmicTracks.get(row).ReadTrackTrajectory(event, svtCosmicTracks.get(row).id, print);
+                ArrayList<Integer> trackCrosses = new ArrayList<Integer>();
+                for (int i = 0; i < Constants.NLAYERS; ++i) {
+                    String varName = String.format("Cross%d_ID", i + 1);
+                    int crossId = bankSVTCosmics.getInt(varName, row);
+                    svtCosmicTracks.get(row).crossId[i] = crossId;
+                    if (crossId != -1) trackCrosses.add(crossId);
                 }
-                Collections.sort(track_crosses);
-                for(int i=0;i<track_crosses.size();++i) svtCosmicTracks.get(row).ReadTrackCrosses(event,track_crosses.get(i),print);
-                if(print) svtCosmicTracks.get(row).Show();
-                nTrackCrosses +=track_crosses.size();
-                nTrackHits += svtCosmicTracks.get(row).n_track_hits_;
+                Collections.sort(trackCrosses);
+                for (int i = 0; i < trackCrosses.size(); ++i)
+                    svtCosmicTracks.get(row).ReadTrackCrosses(event, trackCrosses.get(i), print);
+                if (print) svtCosmicTracks.get(row).Show();
+                nTrackCrosses += trackCrosses.size();
+                nTrackHits += svtCosmicTracks.get(row).nTrackHits;
             }
-            nTrackClusters = nTrackCrosses *2;
         }
+        else if (event.hasBank("BSTRec::Tracks")) {
+            EvioDataBank bankSVTTracks = (EvioDataBank) event.getBank("BSTRec::Tracks");
+            nTracks = bankSVTTracks.rows();
+            System.out.println(nTracks);
+            for (int row = 0; row < bankSVTTracks.rows(); ++row) {
+                AddTrack();
+                svtTracks.get(row).id = bankSVTTracks.getInt("ID", row);
+                svtTracks.get(row).fittingMethod = bankSVTTracks.getInt("fittingMethod", row);
+                svtTracks.get(row).cX = bankSVTTracks.getDouble("c_x", row);
+                svtTracks.get(row).cY = bankSVTTracks.getDouble("c_y", row);
+                svtTracks.get(row).cZ = bankSVTTracks.getDouble("c_z", row);
+                svtTracks.get(row).cUX = bankSVTTracks.getDouble("c_ux", row);
+                svtTracks.get(row).cUY = bankSVTTracks.getDouble("c_uy", row);
+                svtTracks.get(row).cUZ = bankSVTTracks.getDouble("c_uz", row);
+                svtTracks.get(row).q = bankSVTTracks.getInt("q", row);
+                svtTracks.get(row).p = bankSVTTracks.getDouble("p", row);
+                svtTracks.get(row).pT = bankSVTTracks.getDouble("pt", row);
+                svtTracks.get(row).phi0 = bankSVTTracks.getDouble("phi0", row);
+                svtTracks.get(row).tanDip = bankSVTTracks.getDouble("tandip", row);
+                svtTracks.get(row).z0 = bankSVTTracks.getDouble("z0", row);
+                svtTracks.get(row).d0 = bankSVTTracks.getDouble("d0", row);
+                svtTracks.get(row).covD02 = bankSVTTracks.getDouble("cov_d02", row);
+                svtTracks.get(row).covD0Phi0 = bankSVTTracks.getDouble("cov_d0phi0", row);
+                svtTracks.get(row).covD0Rho = bankSVTTracks.getDouble("cov_d0rho", row);
+                svtTracks.get(row).covPhi02 = bankSVTTracks.getDouble("cov_phi02", row);
+                svtTracks.get(row).covPhi0Rho = bankSVTTracks.getDouble("cov_phi0rho", row);
+                svtTracks.get(row).covRho2 = bankSVTTracks.getDouble("cov_rho2", row);
+                svtTracks.get(row).covZ02 = bankSVTTracks.getDouble("cov_z02", row);
+                svtTracks.get(row).covTanDip2 = bankSVTTracks.getDouble("cov_tandip2", row);
+                svtTracks.get(row).ReadTrackTrajectory(event, svtTracks.get(row).id, print);
+                ArrayList<Integer> trackCrosses = new ArrayList<Integer>();
+                for (int i = 0; i < Constants.NREGIONS; ++i) {
+                    String varName = String.format("Cross%d_ID", i + 1);
+                    int crossId = bankSVTTracks.getInt(varName, row);
+                    svtTracks.get(row).crossId[i] = crossId;
+                    if (crossId != -1) trackCrosses.add(crossId);
+                }
+                Collections.sort(trackCrosses);
+                for (int i = 0; i < trackCrosses.size(); ++i)
+                    svtTracks.get(row).ReadTrackCrosses(event, trackCrosses.get(i), print);
+                if (print) svtTracks.get(row).Show();
+                nTrackCrosses += trackCrosses.size();
+                nTrackHits += svtTracks.get(row).nTrackHits;
+            }
+        }
+        nTrackClusters = nTrackCrosses * 2;
     }
 
     static int Module(int layer, int sector) {
@@ -537,27 +592,27 @@ public class SVTEvent {
         return sector+shift[layer-1]-1;
     }
 
-    static boolean IsTrackCross(int cross_id) {
+    static boolean IsTrackCross(int crossId) {
         for(int i = 0; i< nTracks; ++i) {
-            for(int j=0;j<TrackCrosses(i).size();++j)  if(cross_id==TrackCrosses(i).get(j).id_) return true;
+            for(int j=0;j<TrackCrosses(i).size();++j)  if(crossId==TrackCrosses(i).get(j).id) return true;
         }
         return false;
     }
 
-    boolean IsTrackCluster(int cluster_id) {
+    boolean IsTrackCluster(int clusterId) {
         for(int i = 0; i< nTracks; ++i) {
             for(int j=0;j<TrackCrosses(i).size();++j) {
-                for(int k=0;k<TrackClusters(i,j).size();++k) if(cluster_id==TrackClusters(i,j).get(k).id_) return true;
+                for(int k=0;k<TrackClusters(i,j).size();++k) if(clusterId==TrackClusters(i,j).get(k).id) return true;
             }
         }
         return false;
     }
 
-    boolean IsTrackHit(int hit_id) {
+    boolean IsTrackHit(int hitId) {
         for(int i = 0; i< nTracks; ++i) {
             for(int j=0;j<TrackCrosses(i).size();++j) {
                 for(int k=0;k<TrackClusters(i,j).size();++k) {
-                    for(int l=0;l<TrackHits(i,j,k).size();++l) if(hit_id==TrackHits(i,j,k).get(l).id_) return true;
+                    for(int l=0;l<TrackHits(i,j,k).size();++l) if(hitId==TrackHits(i,j,k).get(l).id) return true;
                 }
             }
         }
@@ -566,39 +621,39 @@ public class SVTEvent {
 
     void ReadOffTrackCrosses(EvioDataEvent event, boolean print) {
         if(event.hasBank("BSTRec::Crosses")){
-            EvioDataBank bank_SVTCross = (EvioDataBank) event.getBank("BSTRec::Crosses");
-            int nclrows;
+            EvioDataBank bankSVTCross = (EvioDataBank) event.getBank("BSTRec::Crosses");
+            int nClusterRows;
             EvioDataBank bank_SVTCluster = null;
             if(event.hasBank("BSTRec::Clusters")) {
                 bank_SVTCluster = (EvioDataBank) event.getBank("BSTRec::Clusters");
-                nclrows=bank_SVTCluster.rows();
+                nClusterRows=bank_SVTCluster.rows();
             }
-            else nclrows=0;
-            int nrows=bank_SVTCross.rows();
-            int cross_id=-1;
+            else nClusterRows=0;
+            int nrows=bankSVTCross.rows();
+            int crossId=-1;
             for(int row = 0; row < nrows; ++row){
-                cross_id=bank_SVTCross.getInt("ID",row);
-                if(IsTrackCross(cross_id)) continue;
+                crossId=bankSVTCross.getInt("ID",row);
+                if(IsTrackCross(crossId)) continue;
                 AddOffTrackCross();
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).id_=cross_id;
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).sector_=bank_SVTCross.getInt("sector",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).region_=bank_SVTCross.getInt("region",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).x_=bank_SVTCross.getDouble("x",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).err_x_=bank_SVTCross.getDouble("err_x",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).ux_=bank_SVTCross.getDouble("ux",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).y_=bank_SVTCross.getDouble("y",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).err_y_=bank_SVTCross.getDouble("err_y",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).uy_=bank_SVTCross.getDouble("uy",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).z_=bank_SVTCross.getDouble("z",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).err_z_=bank_SVTCross.getDouble("err_z",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).uz_=bank_SVTCross.getDouble("uz",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).cluster_id_[0]=bank_SVTCross.getInt("Cluster1_ID",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).cluster_id_[1]=bank_SVTCross.getInt("Cluster2_ID",row);
-                svtOfftrackCrosses.get(nOfftrackCrosses -1).n_offtrack_clusters_=2;
-                for(int clrow = 0; clrow < nclrows; ++clrow) {
-                    if(bank_SVTCluster.getInt("ID",clrow)== svtOfftrackCrosses.get(nOfftrackCrosses -1).cluster_id_[0] ||
-                            bank_SVTCluster.getInt("ID",clrow)== svtOfftrackCrosses.get(nOfftrackCrosses -1).cluster_id_[1])
-                        svtOfftrackCrosses.get(nOfftrackCrosses -1).n_offtrack_hits_ += bank_SVTCluster.getInt("size",clrow);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).id =crossId;
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).sector =bankSVTCross.getInt("sector",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).region =bankSVTCross.getInt("region",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).x =bankSVTCross.getDouble("x",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).errX =bankSVTCross.getDouble("err_x",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).ux =bankSVTCross.getDouble("ux",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).y =bankSVTCross.getDouble("y",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).errY =bankSVTCross.getDouble("err_y",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).uy =bankSVTCross.getDouble("uy",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).z =bankSVTCross.getDouble("z",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).errZ =bankSVTCross.getDouble("err_z",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).uz =bankSVTCross.getDouble("uz",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).clusterId[0]=bankSVTCross.getInt("Cluster1_ID",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).clusterId[1]=bankSVTCross.getInt("Cluster2_ID",row);
+                svtOfftrackCrosses.get(nOfftrackCrosses -1).nOfftrackClusters =2;
+                for(int clusterRow = 0; clusterRow < nClusterRows; ++clusterRow) {
+                    if(bank_SVTCluster.getInt("ID",clusterRow)== svtOfftrackCrosses.get(nOfftrackCrosses -1).clusterId[0] ||
+                            bank_SVTCluster.getInt("ID",clusterRow)== svtOfftrackCrosses.get(nOfftrackCrosses -1).clusterId[1])
+                        svtOfftrackCrosses.get(nOfftrackCrosses -1).nOfftrackHits += bank_SVTCluster.getInt("size",clusterRow);
                 }
                 if(print) {
                     System.out.println(Constants.RED+"Off track"+Constants.RESET);
@@ -610,53 +665,53 @@ public class SVTEvent {
 
     void ReadOffTrackClusters(EvioDataEvent event, boolean print) {
         if(event.hasBank("BSTRec::Clusters")){
-            EvioDataBank bank_SVTCluster = (EvioDataBank) event.getBank("BSTRec::Clusters");
-            int ncrrows;
-            EvioDataBank bank_SVTCross = null;
+            EvioDataBank bankSVTCluster = (EvioDataBank) event.getBank("BSTRec::Clusters");
+            int nCrossRows;
+            EvioDataBank bankSVTCross = null;
             if(event.hasBank("BSTRec::Crosses")) {
-                bank_SVTCross = (EvioDataBank) event.getBank("BSTRec::Crosses");
-                ncrrows=bank_SVTCross.rows();
+                bankSVTCross = (EvioDataBank) event.getBank("BSTRec::Crosses");
+                nCrossRows=bankSVTCross.rows();
             }
-            else ncrrows=0;
-            int nrows=bank_SVTCluster.rows();
-            int cluster_id=-1;
+            else nCrossRows=0;
+            int nrows=bankSVTCluster.rows();
+            int clusterId=-1;
             for(int row = 0; row < nrows; ++row){
-                cluster_id=bank_SVTCluster.getInt("ID",row);
-                if(IsTrackCluster(cluster_id)) continue;
+                clusterId=bankSVTCluster.getInt("ID",row);
+                if(IsTrackCluster(clusterId)) continue;
                 AddOffTrackCluster();
-                svtOfftrackClusters.get(nOfftrackClusters -1).id_=cluster_id;
-                svtOfftrackClusters.get(nOfftrackClusters -1).sector_=bank_SVTCluster.getInt("sector",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).layer_=bank_SVTCluster.getInt("layer",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).size_=bank_SVTCluster.getInt("size",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).e_tot_=bank_SVTCluster.getDouble("ETot",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).seed_e_=bank_SVTCluster.getDouble("seedE",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).id =clusterId;
+                svtOfftrackClusters.get(nOfftrackClusters -1).sector =bankSVTCluster.getInt("sector",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).layer =bankSVTCluster.getInt("layer",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).size =bankSVTCluster.getInt("size",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).eTot =bankSVTCluster.getDouble("ETot",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).seedE =bankSVTCluster.getDouble("seedE",row);
 
 
                 for(int row1 = 0; row1 < nrows; ++row1) {
 
-                    int sector=bank_SVTCluster.getInt("sector",row1);
-                    int layer=bank_SVTCluster.getInt("layer",row1);
-                    if(sector!= svtOfftrackClusters.get(nOfftrackClusters -1).sector_||
-                            layer!= svtOfftrackClusters.get(nOfftrackClusters -1).layer_+1) continue;
-                    svtOfftrackClusters.get(nOfftrackClusters - 1).seed_strip_ = bank_SVTCluster.getInt("seedStrip", row);
-if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters.get(nOfftrackClusters -1).sector_==1&& svtOfftrackClusters.get(nOfftrackClusters - 1).seed_strip_==200) System.out.println(eventNr);
+                    int sector=bankSVTCluster.getInt("sector",row1);
+                    int layer=bankSVTCluster.getInt("layer",row1);
+                    if(sector!= svtOfftrackClusters.get(nOfftrackClusters -1).sector ||
+                            layer!= svtOfftrackClusters.get(nOfftrackClusters -1).layer +1) continue;
+                    svtOfftrackClusters.get(nOfftrackClusters - 1).seedStrip = bankSVTCluster.getInt("seedStrip", row);
+if(svtOfftrackClusters.get(nOfftrackClusters -1).layer ==1&& svtOfftrackClusters.get(nOfftrackClusters -1).sector ==1&& svtOfftrackClusters.get(nOfftrackClusters - 1).seedStrip ==200) System.out.println(eventNr);
                 }
 
 
 
 
 
-                svtOfftrackClusters.get(nOfftrackClusters -1).centroid_=bank_SVTCluster.getDouble("centroid",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).hit1_id_=bank_SVTCluster.getInt("Hit1_ID",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).hit2_id_=bank_SVTCluster.getInt("Hit2_ID",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).hit3_id_=bank_SVTCluster.getInt("Hit3_ID",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).hit4_id_=bank_SVTCluster.getInt("Hit4_ID",row);
-                svtOfftrackClusters.get(nOfftrackClusters -1).hit5_id_=bank_SVTCluster.getInt("Hit5_ID",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).centroid =bankSVTCluster.getDouble("centroid",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).hit1Id =bankSVTCluster.getInt("Hit1_ID",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).hit2Id =bankSVTCluster.getInt("Hit2_ID",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).hit3Id =bankSVTCluster.getInt("Hit3_ID",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).hit4Id =bankSVTCluster.getInt("Hit4_ID",row);
+                svtOfftrackClusters.get(nOfftrackClusters -1).hit5Id =bankSVTCluster.getInt("Hit5_ID",row);
 
-                for(int crrow = 0; crrow < ncrrows; ++crrow) {
-                    if(cluster_id==bank_SVTCross.getInt("Cluster1_ID",crrow) ||
-                            cluster_id==bank_SVTCross.getInt("Cluster2_ID",crrow))
-                        svtOfftrackClusters.get(nOfftrackClusters -1).cross_id_=bank_SVTCross.getInt("ID",crrow);
+                for(int crossRow = 0; crossRow < nCrossRows; ++crossRow) {
+                    if(clusterId==bankSVTCross.getInt("Cluster1_ID",crossRow) ||
+                            clusterId==bankSVTCross.getInt("Cluster2_ID",crossRow))
+                        svtOfftrackClusters.get(nOfftrackClusters -1).crossId =bankSVTCross.getInt("ID",crossRow);
                 }
                 if(print) {
                     System.out.println(Constants.RED+"Off track"+Constants.RESET);
@@ -668,12 +723,12 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
 
     void ReadOffTrackHits(EvioDataEvent event, boolean print) {
         if(event.hasBank("BSTRec::Hits")){
-            EvioDataBank bank_SVTHit = (EvioDataBank) event.getBank("BSTRec::Hits");
-            int nrows=bank_SVTHit.rows();
-            EvioDataBank bank_SVTDgtz = null;
+            EvioDataBank bankSVTHit = (EvioDataBank) event.getBank("BSTRec::Hits");
+            int nRows=bankSVTHit.rows();
+            EvioDataBank bankSVTDgtz = null;
             boolean dgtzBank;
             if(event.hasBank("BST::dgtz")) {
-                bank_SVTDgtz = (EvioDataBank) event.getBank("BST::dgtz");
+                bankSVTDgtz = (EvioDataBank) event.getBank("BST::dgtz");
                 dgtzBank=true;
             }
             else {
@@ -681,28 +736,28 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
                 System.out.println("No dgtz bank in event");
                 // return;
             }
-            int hit_id=-1;
-            for(int row = 0; row < nrows; ++row){
-                // hit_id=row+1;
-                // hit_id=bank_SVTHit.getInt("id",row);
-                hit_id=bank_SVTHit.getInt("ID",row);
-                if(IsTrackHit(hit_id)) continue;
+            int hitId=-1;
+            for(int row = 0; row < nRows; ++row){
+                // hitId=row+1;
+                // hitId=bankSVTHit.getInt("id",row);
+                hitId=bankSVTHit.getInt("ID",row);
+                if(IsTrackHit(hitId)) continue;
                 AddOffTrackHit();
-                svtOfftrackHits.get(nOfftrackHits -1).id_=hit_id;
-                svtOfftrackHits.get(nOfftrackHits -1).sector_=bank_SVTHit.getInt("sector",row);
-                svtOfftrackHits.get(nOfftrackHits -1).layer_=bank_SVTHit.getInt("layer",row);
-                svtOfftrackHits.get(nOfftrackHits -1).strip_=bank_SVTHit.getInt("strip",row);
-                svtOfftrackHits.get(nOfftrackHits -1).fit_residual_=bank_SVTHit.getDouble("fitResidual",row);
-                svtOfftrackHits.get(nOfftrackHits -1).trking_stat_=bank_SVTHit.getInt("trkingStat",row);
-                svtOfftrackHits.get(nOfftrackHits -1).cluster_id_=bank_SVTHit.getInt("clusterID",row);
+                svtOfftrackHits.get(nOfftrackHits -1).id =hitId;
+                svtOfftrackHits.get(nOfftrackHits -1).sector =bankSVTHit.getInt("sector",row);
+                svtOfftrackHits.get(nOfftrackHits -1).layer =bankSVTHit.getInt("layer",row);
+                svtOfftrackHits.get(nOfftrackHits -1).strip =bankSVTHit.getInt("strip",row);
+                svtOfftrackHits.get(nOfftrackHits -1).fitResidual =bankSVTHit.getDouble("fitResidual",row);
+                svtOfftrackHits.get(nOfftrackHits -1).trkingStat =bankSVTHit.getInt("trkingStat",row);
+                svtOfftrackHits.get(nOfftrackHits -1).clusterId =bankSVTHit.getInt("clusterID",row);
                 if(dgtzBank) {
-                    svtOfftrackHits.get(nOfftrackHits -1).adc_=bank_SVTDgtz.getInt("ADC",row);
-                    svtOfftrackHits.get(nOfftrackHits -1).bco_=bank_SVTDgtz.getInt("bco",row);
-                    svtOfftrackHits.get(nOfftrackHits -1).hit_n_=bank_SVTDgtz.getInt("hitn",row);
+                    svtOfftrackHits.get(nOfftrackHits -1).adc =bankSVTDgtz.getInt("ADC",row);
+                    svtOfftrackHits.get(nOfftrackHits -1).bco =bankSVTDgtz.getInt("bco",row);
+                    svtOfftrackHits.get(nOfftrackHits -1).hitN =bankSVTDgtz.getInt("hitn",row);
                 }
-                for(int clrow = 0; clrow < svtOfftrackClusters.size(); ++clrow) {
-                    if(svtOfftrackHits.get(nOfftrackHits -1).cluster_id_== svtOfftrackClusters.get(clrow).id_)
-                        svtOfftrackHits.get(nOfftrackHits -1).cross_id_= svtOfftrackClusters.get(clrow).cross_id_;
+                for(int clusterRow = 0; clusterRow < svtOfftrackClusters.size(); ++clusterRow) {
+                    if(svtOfftrackHits.get(nOfftrackHits -1).clusterId == svtOfftrackClusters.get(clusterRow).id)
+                        svtOfftrackHits.get(nOfftrackHits -1).crossId = svtOfftrackClusters.get(clusterRow).crossId;
                 }
                 if(print) {
                     System.out.println(Constants.RED+"Off track"+Constants.RESET);
@@ -712,55 +767,9 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
         }
     }
 
-    /*
-    void ReadHits(EvioDataEvent event, boolean print) {
-      if(event.hasBank("BSTRec::Hits")){
-        EvioDataBank bank_SVTHit = (EvioDataBank) event.getBank("BSTRec::Hits");
-        int nrows=bank_SVTHit.rows();
-        EvioDataBank bank_SVTDgtz;
-        boolean dgtzBank;
-        if(event.hasBank("BST::dgtz")) {
-      bank_SVTDgtz = (EvioDataBank) event.getBank("BST::dgtz");
-      dgtzBank=true;
-        }
-        else {
-      dgtzBank=false;
-      System.out.println("No dgtz bank in event");
-      return;
-        }
-        int hit_id=-1;
-        for(int row = 0; row < nrows; ++row){
-      // hit_id=row+1;
-      hit_id=bank_SVTHit.getInt("id",row);
-      // hit_id=bank_SVTHit.getInt("ID",row);
-      AddHit();
-      svt_hits_.get(nHits-1).id_=hit_id;
-      svt_hits_.get(nHits-1).sector_=bank_SVTHit.getInt("sector",row);
-      svt_hits_.get(nHits-1).layer_=bank_SVTHit.getInt("layer",row);
-      svt_hits_.get(nHits-1).strip_=bank_SVTHit.getInt("strip",row);
-      svt_hits_.get(nHits-1).fit_residual_=bank_SVTHit.getDouble("fitResidual",row);
-      svt_hits_.get(nHits-1).trking_stat_=bank_SVTHit.getInt("trkingStat",row);
-      svt_hits_.get(nHits-1).cluster_id_=bank_SVTHit.getInt("clusterID",row);
-      if(dgtzBank) {
-        svt_hits_.get(nHits-1).adc_=bank_SVTDgtz.getInt("ADC",row);
-        svt_hits_.get(nHits-1).bco_=bank_SVTDgtz.getInt("bco",row);
-        svt_hits_.get(nHits-1).hit_n_=bank_SVTDgtz.getInt("hitn",row);
-      }
-      for(int clrow = 0; clrow < svt_clusters_.size(); ++clrow) {
-        if(svt_hits_.get(nHits-1).cluster_id_==svt_clusters_.get(clrow).id_)
-          svt_hits_.get(nHits-1).cross_id_=svt_clusters_.get(clrow).cross_id_;
-      }
-      if(print) {
-        System.out.println(RED+"Off track"+RESET);
-        svt_hits_.get(nHits-1).Show();
-      }
-        }
-      }
-    }
-    */
     public void Show() {
         svtCosmicTracks.get(0).Show();
-        svtCosmicTracks.get(0).svt_trajectory_.Show();
+        svtCosmicTracks.get(0).svtTrajectory.Show();
     }
 
 //  String Color(Object data,int index) {
@@ -778,24 +787,24 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
         int n_vars = trackColumnNames.length;
         data = new Object[nTracks][n_vars];
         for(int i = 0; i< nTracks; ++i) {
-            svtCosmicTracks.get(i).svt_trajectory_.Show();
-            data[i][0]= svtCosmicTracks.get(i).id_;
-            data[i][1]=nf.format(svtCosmicTracks.get(i).trkline_yx_slope_);
-            data[i][2]=nf.format(svtCosmicTracks.get(i).trkline_yx_interc_);
-            data[i][3]=nf.format(svtCosmicTracks.get(i).trkline_yz_slope_);
-            data[i][4]=nf.format(svtCosmicTracks.get(i).trkline_yz_interc_);
-            data[i][5]=nf0.format(svtCosmicTracks.get(i).theta_);
-            data[i][6]=nf0.format(svtCosmicTracks.get(i).phi_);
-            data[i][7]=nf0.format(svtCosmicTracks.get(i).kf_chi2_);
-            data[i][8]= svtCosmicTracks.get(i).kf_ndf_;
-            data[i][9]= svtCosmicTracks.get(i).cross_id_[0];
-            data[i][10]= svtCosmicTracks.get(i).cross_id_[1];
-            data[i][11]= svtCosmicTracks.get(i).cross_id_[2];
-            data[i][12]= svtCosmicTracks.get(i).cross_id_[3];
-            data[i][13]= svtCosmicTracks.get(i).cross_id_[4];
-            data[i][14]= svtCosmicTracks.get(i).cross_id_[5];
-            data[i][15]= svtCosmicTracks.get(i).cross_id_[6];
-            data[i][16]= svtCosmicTracks.get(i).cross_id_[7];
+            svtCosmicTracks.get(i).svtTrajectory.Show();
+            data[i][0]= svtCosmicTracks.get(i).id;
+            data[i][1]=nf.format(svtCosmicTracks.get(i).trklineYxSlope);
+            data[i][2]=nf.format(svtCosmicTracks.get(i).trklineYxInterc);
+            data[i][3]=nf.format(svtCosmicTracks.get(i).trklineYzSlope);
+            data[i][4]=nf.format(svtCosmicTracks.get(i).trklineYzInterc);
+            data[i][5]=nf0.format(svtCosmicTracks.get(i).theta);
+            data[i][6]=nf0.format(svtCosmicTracks.get(i).phi);
+            data[i][7]=nf0.format(svtCosmicTracks.get(i).kfChi2);
+            data[i][8]= svtCosmicTracks.get(i).kfNdf;
+            data[i][9]= svtCosmicTracks.get(i).crossId[0];
+            data[i][10]= svtCosmicTracks.get(i).crossId[1];
+            data[i][11]= svtCosmicTracks.get(i).crossId[2];
+            data[i][12]= svtCosmicTracks.get(i).crossId[3];
+            data[i][13]= svtCosmicTracks.get(i).crossId[4];
+            data[i][14]= svtCosmicTracks.get(i).crossId[5];
+            data[i][15]= svtCosmicTracks.get(i).crossId[6];
+            data[i][16]= svtCosmicTracks.get(i).crossId[7];
             data[i][17]= nTrackCrosses;
             data[i][18]= nTrackClusters;
             data[i][19]= nTrackHits;
@@ -811,41 +820,41 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
 // 	if(j%2==0) { 
 // 	}
 // 	else { 
-// 	  data[m][0]=RED+TrackCrosses(i).get(j).id_+RESET;
+// 	  data[m][0]=RED+TrackCrosses(i).get(j).id+RESET;
 // 	}
-                data[m][0]=TrackCrosses(i).get(j).id_;
-                data[m][1]=TrackCrosses(i).get(j).sector_;
-                data[m][2]=TrackCrosses(i).get(j).region_;
-                data[m][3]=nf0.format(TrackCrosses(i).get(j).x_);
-                data[m][4]=nf0.format(TrackCrosses(i).get(j).y_);
-                data[m][5]=nf0.format(TrackCrosses(i).get(j).z_);
-                data[m][6]=nf.format(TrackCrosses(i).get(j).err_x_);
-                data[m][7]=nf.format(TrackCrosses(i).get(j).err_y_);
-                data[m][8]=nf.format(TrackCrosses(i).get(j).err_z_);
-                data[m][9]=nf.format(TrackCrosses(i).get(j).ux_);
-                data[m][10]=nf.format(TrackCrosses(i).get(j).uy_);
-                data[m][11]=nf.format(TrackCrosses(i).get(j).uz_);
-                data[m][12]=TrackCrosses(i).get(j).cluster_id_[0];
-                data[m][13]=TrackCrosses(i).get(j).cluster_id_[1];
-                data[m][14]=TrackCrosses(i).get(j).track_id_;
-                data[m][15]=TrackCrosses(i).get(j).n_track_clusters_;
-                data[m][16]=TrackCrosses(i).get(j).n_track_hits_;
+                data[m][0]=TrackCrosses(i).get(j).id;
+                data[m][1]=TrackCrosses(i).get(j).sector;
+                data[m][2]=TrackCrosses(i).get(j).region;
+                data[m][3]=nf0.format(TrackCrosses(i).get(j).x);
+                data[m][4]=nf0.format(TrackCrosses(i).get(j).y);
+                data[m][5]=nf0.format(TrackCrosses(i).get(j).z);
+                data[m][6]=nf.format(TrackCrosses(i).get(j).errX);
+                data[m][7]=nf.format(TrackCrosses(i).get(j).errY);
+                data[m][8]=nf.format(TrackCrosses(i).get(j).errZ);
+                data[m][9]=nf.format(TrackCrosses(i).get(j).ux);
+                data[m][10]=nf.format(TrackCrosses(i).get(j).uy);
+                data[m][11]=nf.format(TrackCrosses(i).get(j).uz);
+                data[m][12]=TrackCrosses(i).get(j).clusterId[0];
+                data[m][13]=TrackCrosses(i).get(j).clusterId[1];
+                data[m][14]=TrackCrosses(i).get(j).trackId;
+                data[m][15]=TrackCrosses(i).get(j).nTrackClusters;
+                data[m][16]=TrackCrosses(i).get(j).nTrackHits;
                 m++;
 // 	}
-// 	  data[m][1]=RED+TrackCrosses(i).get(j).sector_+RESET;
-// 	  data[m][2]=RED+TrackCrosses(i).get(j).region_+RESET;
-// 	  data[m][3]=RED+nf0.format(TrackCrosses(i).get(j).x_)+RESET;
-// 	  data[m][4]=RED+nf0.format(TrackCrosses(i).get(j).y_)+RESET;
-// 	  data[m][5]=RED+nf0.format(TrackCrosses(i).get(j).z_)+RESET;
-// 	  data[m][6]=RED+nf.format(TrackCrosses(i).get(j).err_x_)+RESET;
-// 	  data[m][7]=RED+nf.format(TrackCrosses(i).get(j).err_y_)+RESET;
-// 	  data[m][8]=RED+nf.format(TrackCrosses(i).get(j).err_z_)+RESET;
-// 	  data[m][9]=RED+nf.format(TrackCrosses(i).get(j).ux_)+RESET;
-// 	  data[m][10]=RED+nf.format(TrackCrosses(i).get(j).uy_)+RESET;
-// 	  data[m][11]=RED+nf.format(TrackCrosses(i).get(j).uz_)+RESET;
-// 	  data[m][12]=RED+TrackCrosses(i).get(j).cluster_id_[0]+RESET;
-// 	  data[m][13]=RED+TrackCrosses(i).get(j).cluster_id_[1]+RESET;
-// 	  data[m][14]=RED+TrackCrosses(i).get(j).track_id_+RESET;
+// 	  data[m][1]=RED+TrackCrosses(i).get(j).sector+RESET;
+// 	  data[m][2]=RED+TrackCrosses(i).get(j).region+RESET;
+// 	  data[m][3]=RED+nf0.format(TrackCrosses(i).get(j).x)+RESET;
+// 	  data[m][4]=RED+nf0.format(TrackCrosses(i).get(j).y)+RESET;
+// 	  data[m][5]=RED+nf0.format(TrackCrosses(i).get(j).z)+RESET;
+// 	  data[m][6]=RED+nf.format(TrackCrosses(i).get(j).errX)+RESET;
+// 	  data[m][7]=RED+nf.format(TrackCrosses(i).get(j).errY)+RESET;
+// 	  data[m][8]=RED+nf.format(TrackCrosses(i).get(j).errZ)+RESET;
+// 	  data[m][9]=RED+nf.format(TrackCrosses(i).get(j).ux)+RESET;
+// 	  data[m][10]=RED+nf.format(TrackCrosses(i).get(j).uy)+RESET;
+// 	  data[m][11]=RED+nf.format(TrackCrosses(i).get(j).uz)+RESET;
+// 	  data[m][12]=RED+TrackCrosses(i).get(j).clusterId[0]+RESET;
+// 	  data[m][13]=RED+TrackCrosses(i).get(j).clusterId[1]+RESET;
+// 	  data[m][14]=RED+TrackCrosses(i).get(j).trackId+RESET;
 // 	  data[m][15]=RED+TrackCrosses(i).get(j).nTrackClusters+RESET;
 // 	  data[m][16]=RED+TrackCrosses(i).get(j).nTrackHits+RESET;
 // 	}
@@ -861,22 +870,22 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
         for(int i = 0; i< nTracks; ++i) {
             for(int j=0;j<TrackCrosses(i).size();++j) {
                 for(int k=0;k<TrackClusters(i,j).size();++k) {
-                    data[m][0]=TrackClusters(i,j).get(k).id_;
-                    data[m][1]=TrackClusters(i,j).get(k).sector_;
-                    data[m][2]=TrackClusters(i,j).get(k).layer_;
-                    data[m][3]=TrackClusters(i,j).get(k).size_;
-                    data[m][4]=nf0.format(TrackClusters(i,j).get(k).e_tot_);
-                    data[m][5]=nf0.format(TrackClusters(i,j).get(k).seed_e_);
-                    data[m][6]=TrackClusters(i,j).get(k).seed_strip_;
-                    data[m][7]=nf.format(TrackClusters(i,j).get(k).centroid_);
-                    data[m][8]=TrackClusters(i,j).get(k).hit1_id_;
-                    data[m][9]=TrackClusters(i,j).get(k).hit2_id_;
-                    data[m][10]=TrackClusters(i,j).get(k).hit3_id_;
-                    data[m][11]=TrackClusters(i,j).get(k).hit4_id_;
-                    data[m][12]=TrackClusters(i,j).get(k).hit5_id_;
-                    data[m][13]=TrackClusters(i,j).get(k).cross_id_;
-                    data[m][14]=TrackClusters(i,j).get(k).track_id_;
-                    data[m][15]=TrackClusters(i,j).get(k).trj_id_;
+                    data[m][0]=TrackClusters(i,j).get(k).id;
+                    data[m][1]=TrackClusters(i,j).get(k).sector;
+                    data[m][2]=TrackClusters(i,j).get(k).layer;
+                    data[m][3]=TrackClusters(i,j).get(k).size;
+                    data[m][4]=nf0.format(TrackClusters(i,j).get(k).eTot);
+                    data[m][5]=nf0.format(TrackClusters(i,j).get(k).seedE);
+                    data[m][6]=TrackClusters(i,j).get(k).seedStrip;
+                    data[m][7]=nf.format(TrackClusters(i,j).get(k).centroid);
+                    data[m][8]=TrackClusters(i,j).get(k).hit1Id;
+                    data[m][9]=TrackClusters(i,j).get(k).hit2Id;
+                    data[m][10]=TrackClusters(i,j).get(k).hit3Id;
+                    data[m][11]=TrackClusters(i,j).get(k).hit4Id;
+                    data[m][12]=TrackClusters(i,j).get(k).hit5Id;
+                    data[m][13]=TrackClusters(i,j).get(k).crossId;
+                    data[m][14]=TrackClusters(i,j).get(k).trackId;
+                    data[m][15]=TrackClusters(i,j).get(k).trjId;
                     m++;
                 }
             }
@@ -892,18 +901,18 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
             for(int j=0;j<TrackCrosses(i).size();++j) {
                 for(int k=0;k<TrackClusters(i,j).size();++k) {
                     for(int l=0;l<TrackHits(i,j,k).size();++l) {
-                        data[m][0]=TrackHits(i,j,k).get(l).id_;
-                        data[m][1]=TrackHits(i,j,k).get(l).sector_;
-                        data[m][2]=TrackHits(i,j,k).get(l).layer_;
-                        data[m][3]=TrackHits(i,j,k).get(l).strip_;
-                        data[m][4]=nf.format(TrackHits(i,j,k).get(l).fit_residual_);
-                        data[m][5]=TrackHits(i,j,k).get(l).trking_stat_;
-                        data[m][6]=TrackHits(i,j,k).get(l).adc_;
-                        data[m][7]=TrackHits(i,j,k).get(l).bco_;
-                        data[m][8]=TrackHits(i,j,k).get(l).hit_n_;
-                        data[m][9]=TrackHits(i,j,k).get(l).cluster_id_;
-                        data[m][10]=TrackHits(i,j,k).get(l).cross_id_;
-                        data[m][11]=TrackHits(i,j,k).get(l).track_id_;
+                        data[m][0]=TrackHits(i,j,k).get(l).id;
+                        data[m][1]=TrackHits(i,j,k).get(l).sector;
+                        data[m][2]=TrackHits(i,j,k).get(l).layer;
+                        data[m][3]=TrackHits(i,j,k).get(l).strip;
+                        data[m][4]=nf.format(TrackHits(i,j,k).get(l).fitResidual);
+                        data[m][5]=TrackHits(i,j,k).get(l).trkingStat;
+                        data[m][6]=TrackHits(i,j,k).get(l).adc;
+                        data[m][7]=TrackHits(i,j,k).get(l).bco;
+                        data[m][8]=TrackHits(i,j,k).get(l).hitN;
+                        data[m][9]=TrackHits(i,j,k).get(l).clusterId;
+                        data[m][10]=TrackHits(i,j,k).get(l).crossId;
+                        data[m][11]=TrackHits(i,j,k).get(l).trackId;
                         m++;
                     }
                 }
@@ -923,23 +932,23 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
         int n_vars = offtrackCrossesColumnNames.length;
         data = new Object[svtOfftrackCrosses.size()][n_vars];
         for(int j = 0; j< svtOfftrackCrosses.size(); ++j) {
-            data[j][0]= svtOfftrackCrosses.get(j).id_;
-            data[j][1]= svtOfftrackCrosses.get(j).sector_;
-            data[j][2]= svtOfftrackCrosses.get(j).region_;
-            data[j][3]=nf0.format(svtOfftrackCrosses.get(j).x_);
-            data[j][4]=nf0.format(svtOfftrackCrosses.get(j).y_);
-            data[j][5]=nf0.format(svtOfftrackCrosses.get(j).z_);
-            data[j][6]=nf.format(svtOfftrackCrosses.get(j).err_x_);
-            data[j][7]=nf.format(svtOfftrackCrosses.get(j).err_y_);
-            data[j][8]=nf.format(svtOfftrackCrosses.get(j).err_z_);
-            data[j][9]=nf.format(svtOfftrackCrosses.get(j).ux_);
-            data[j][10]=nf.format(svtOfftrackCrosses.get(j).uy_);
-            data[j][11]=nf.format(svtOfftrackCrosses.get(j).uz_);
-            data[j][12]= svtOfftrackCrosses.get(j).cluster_id_[0];
-            data[j][13]= svtOfftrackCrosses.get(j).cluster_id_[1];
-            data[j][14]= svtOfftrackCrosses.get(j).track_id_;
-            data[j][15]= svtOfftrackCrosses.get(j).n_offtrack_clusters_;
-            data[j][16]= svtOfftrackCrosses.get(j).n_offtrack_hits_;
+            data[j][0]= svtOfftrackCrosses.get(j).id;
+            data[j][1]= svtOfftrackCrosses.get(j).sector;
+            data[j][2]= svtOfftrackCrosses.get(j).region;
+            data[j][3]=nf0.format(svtOfftrackCrosses.get(j).x);
+            data[j][4]=nf0.format(svtOfftrackCrosses.get(j).y);
+            data[j][5]=nf0.format(svtOfftrackCrosses.get(j).z);
+            data[j][6]=nf.format(svtOfftrackCrosses.get(j).errX);
+            data[j][7]=nf.format(svtOfftrackCrosses.get(j).errY);
+            data[j][8]=nf.format(svtOfftrackCrosses.get(j).errZ);
+            data[j][9]=nf.format(svtOfftrackCrosses.get(j).ux);
+            data[j][10]=nf.format(svtOfftrackCrosses.get(j).uy);
+            data[j][11]=nf.format(svtOfftrackCrosses.get(j).uz);
+            data[j][12]= svtOfftrackCrosses.get(j).clusterId[0];
+            data[j][13]= svtOfftrackCrosses.get(j).clusterId[1];
+            data[j][14]= svtOfftrackCrosses.get(j).trackId;
+            data[j][15]= svtOfftrackCrosses.get(j).nOfftrackClusters;
+            data[j][16]= svtOfftrackCrosses.get(j).nOfftrackHits;
         }
         TextTable ttcr = new TextTable(offtrackCrossesColumnNames, data);
         ttcr.printTable();
@@ -948,21 +957,21 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
         n_vars = offtrackClustersColumnNames.length;
         data = new Object[svtOfftrackClusters.size()][n_vars];
         for(int k = 0; k< svtOfftrackClusters.size(); ++k) {
-            data[k][0]= svtOfftrackClusters.get(k).id_;
-            data[k][1]= svtOfftrackClusters.get(k).sector_;
-            data[k][2]= svtOfftrackClusters.get(k).layer_;
-            data[k][3]= svtOfftrackClusters.get(k).size_;
-            data[k][4]=nf0.format(svtOfftrackClusters.get(k).e_tot_);
-            data[k][5]=nf0.format(svtOfftrackClusters.get(k).seed_e_);
-            data[k][6]= svtOfftrackClusters.get(k).seed_strip_;
-            data[k][7]=nf.format(svtOfftrackClusters.get(k).centroid_);
-            data[k][8]= svtOfftrackClusters.get(k).hit1_id_;
-            data[k][9]= svtOfftrackClusters.get(k).hit2_id_;
-            data[k][10]= svtOfftrackClusters.get(k).hit3_id_;
-            data[k][11]= svtOfftrackClusters.get(k).hit4_id_;
-            data[k][12]= svtOfftrackClusters.get(k).hit5_id_;
-            data[k][13]= svtOfftrackClusters.get(k).cross_id_;
-            data[k][14]= svtOfftrackClusters.get(k).track_id_;
+            data[k][0]= svtOfftrackClusters.get(k).id;
+            data[k][1]= svtOfftrackClusters.get(k).sector;
+            data[k][2]= svtOfftrackClusters.get(k).layer;
+            data[k][3]= svtOfftrackClusters.get(k).size;
+            data[k][4]=nf0.format(svtOfftrackClusters.get(k).eTot);
+            data[k][5]=nf0.format(svtOfftrackClusters.get(k).seedE);
+            data[k][6]= svtOfftrackClusters.get(k).seedStrip;
+            data[k][7]=nf.format(svtOfftrackClusters.get(k).centroid);
+            data[k][8]= svtOfftrackClusters.get(k).hit1Id;
+            data[k][9]= svtOfftrackClusters.get(k).hit2Id;
+            data[k][10]= svtOfftrackClusters.get(k).hit3Id;
+            data[k][11]= svtOfftrackClusters.get(k).hit4Id;
+            data[k][12]= svtOfftrackClusters.get(k).hit5Id;
+            data[k][13]= svtOfftrackClusters.get(k).crossId;
+            data[k][14]= svtOfftrackClusters.get(k).trackId;
         }
         TextTable ttcl = new TextTable(offtrackClustersColumnNames, data);
         ttcl.printTable();
@@ -971,18 +980,18 @@ if(svtOfftrackClusters.get(nOfftrackClusters -1).layer_==1&& svtOfftrackClusters
         n_vars = offtrackHitsColumnNames.length;
         data = new Object[svtOfftrackHits.size()][n_vars];
         for(int l = 0; l< svtOfftrackHits.size(); ++l) {
-            data[l][0]= svtOfftrackHits.get(l).id_;
-            data[l][1]= svtOfftrackHits.get(l).sector_;
-            data[l][2]= svtOfftrackHits.get(l).layer_;
-            data[l][3]= svtOfftrackHits.get(l).strip_;
-            data[l][4]=nf.format(svtOfftrackHits.get(l).fit_residual_);
-            data[l][5]= svtOfftrackHits.get(l).trking_stat_;
-            data[l][6]= svtOfftrackHits.get(l).adc_;
-            data[l][7]= svtOfftrackHits.get(l).bco_;
-            data[l][8]= svtOfftrackHits.get(l).hit_n_;
-            data[l][9]= svtOfftrackHits.get(l).cluster_id_;
-            data[l][10]= svtOfftrackHits.get(l).cross_id_;
-            data[l][11]= svtOfftrackHits.get(l).track_id_;
+            data[l][0]= svtOfftrackHits.get(l).id;
+            data[l][1]= svtOfftrackHits.get(l).sector;
+            data[l][2]= svtOfftrackHits.get(l).layer;
+            data[l][3]= svtOfftrackHits.get(l).strip;
+            data[l][4]=nf.format(svtOfftrackHits.get(l).fitResidual);
+            data[l][5]= svtOfftrackHits.get(l).trkingStat;
+            data[l][6]= svtOfftrackHits.get(l).adc;
+            data[l][7]= svtOfftrackHits.get(l).bco;
+            data[l][8]= svtOfftrackHits.get(l).hitN;
+            data[l][9]= svtOfftrackHits.get(l).clusterId;
+            data[l][10]= svtOfftrackHits.get(l).crossId;
+            data[l][11]= svtOfftrackHits.get(l).trackId;
         }
         TextTable tth = new TextTable(offtrackHitsColumnNames, data);
         tth.printTable();

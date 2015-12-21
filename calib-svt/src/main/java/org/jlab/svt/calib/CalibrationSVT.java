@@ -101,7 +101,7 @@ public class CalibrationSVT implements IDetectorListener,
             graphEnc.setYTitle("ENC, e");
             graphEnc.setFillColor(4);
             graphEnc.setMarkerSize(6);
-            graphEnc.show();
+//            graphEnc.show();
             this.canvas.getPad().setAxisRange(-1.0, 129, 0.0, 2500.0);
             this.canvas.draw(graphEnc);
             PaveText infoEnc = new PaveText(0.05,0.95);
@@ -116,7 +116,7 @@ public class CalibrationSVT implements IDetectorListener,
             graph.setYTitle("Gain, mV/fC");
             graph.setFillColor(4);
             graph.setMarkerSize(6);
-            graph.show();
+//            graph.show();
             this.canvas.getPad().setAxisRange(-1.0, 129, 0.0, 110.0);
             this.canvas.draw(graph);
             PaveText info = new PaveText(0.05,0.95);
@@ -165,7 +165,7 @@ public class CalibrationSVT implements IDetectorListener,
             graphOffset.setYTitle("Offset, mV");
             graphOffset.setFillColor(4);
             graphOffset.setMarkerSize(6);
-            //graphOffset.show();
+//            graphOffset.show();
             this.canvas.getPad().setAxisRange(-1.0, 129, -100.0, 100.0);
             this.canvas.draw(graphOffset);
             PaveText infoOffset = new PaveText(0.05,0.95);
@@ -188,7 +188,7 @@ public class CalibrationSVT implements IDetectorListener,
             infoVt50.addText("mean: " + String.format("%2.0f mV,",graphVt50.getMean()) + " RMS: " + String.format("%2.0f",graphVt50.getRMS()));
 //            this.canvas.draw(infoVt50);
 
-            //chip.getCollection().show();
+//            chip.getCollection().show();
             try {
                 this.constantsTablePanel.setTable(chip.getConstantsTable());
 
@@ -206,6 +206,7 @@ public class CalibrationSVT implements IDetectorListener,
 //        this.calibStore.readData("/Volumes/data/work/pscan/20151123_1551");
         this.calibStore.readData("/Volumes/data/work/pscan/20151209_1231");
         this.calibStore.analyze();
+        System.out.println("analyze complete");
         List<CalibrationDataChip> chips = this.calibStore.getChips().getList();
         if(chips.size()>0){
             this.constantsTablePanel = new ConstantsTablePanel(chips.get(0).getConstantsTable());
