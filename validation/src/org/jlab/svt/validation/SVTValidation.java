@@ -23,8 +23,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SVTValidation extends JPanel implements IDetectorListener, ItemListener, ActionListener, PropertyChangeListener {
 
@@ -67,6 +65,7 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
     private JCheckBox skipCheckBox;
     private JCheckBox printCheckBox;
     private JCheckBox debugCheckBox;
+    private JCheckBox cosmicsCheckBox;
     private JLabel nEventsLabel;
     private JLabel nSkipEventsLabel;
     private JLabel displayEventLabel;
@@ -168,6 +167,11 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
         c.gridx = 0;
         c.gridy = 0;
 
+//        configMenu.getSingleTrackCheckBox().addItemListener(this);
+//        configMenu.getType1CheckBox().addItemListener(this);
+//        configMenu.getChi2CheckBox().addItemListener(this);
+//        configMenu.getAllCrossesCheckBox().addItemListener(this);
+
         JButton buttonOpenDataFile = new JButton("Open");
         buttonOpenDataFile.addActionListener(this);
         this.detectorModulePane.getControlPanel().add(buttonOpenDataFile, c);
@@ -189,6 +193,13 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
         skipCheckBox.setSelected(false);
         skipCheckBox.addItemListener(this);
         this.detectorModulePane.getControlPanel().add(skipCheckBox, c);
+        c.gridx++;
+
+        cosmicsCheckBox = new JCheckBox("Cosmics");
+        cosmicsCheckBox.setMnemonic(KeyEvent.VK_C);
+        cosmicsCheckBox.setSelected(false);
+        cosmicsCheckBox.addItemListener(this);
+        this.detectorModulePane.getControlPanel().add(cosmicsCheckBox, c);
         c.gridx++;
 
         printCheckBox = new JCheckBox("Print");
@@ -411,11 +422,8 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
             else Constants.mcRun = false;
             System.out.println(Constants.mcRun ? "MC run" : "Data run");
 
-//        while (reader.hasEvent() && svtValidation.eventNr <= svtValidation.numEvents) {
-            for (int i = 0; i < nevents; i++) {
-                if (eventNr > numEvents) break;
+        while (reader.hasEvent() && eventNr <= numEvents) {
                 EvioDataEvent event = (EvioDataEvent) reader.getNextEvent();
-//            EvioDataEvent event = (EvioDataEvent) reader.getNextEvent();
 
                 if (eventNr <= skipEvents) {
                     eventNr++;
@@ -488,6 +496,16 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
                     + debugCheckBox.getActionCommand());
             if (event.getStateChange() == ItemEvent.SELECTED) debug = true;
             else if (event.getStateChange() == ItemEvent.DESELECTED) debug = false;
+        } else if (event.getSource() == cosmicsCheckBox) {
+            System.out.println("Change:"
+                    + cosmicsCheckBox.getActionCommand());
+            if (event.getStateChange() == ItemEvent.SELECTED) Constants.cosmicRun = true;
+            else if (event.getStateChange() == ItemEvent.DESELECTED) Constants.cosmicRun = false;
+//        } else if (event.getSource() == configMenu.getSingleTrackCheckBox()) {
+//            System.out.println("Change:"
+//                    + configMenu.getSingleTrackCheckBox().getActionCommand());
+//            if (event.getStateChange() == ItemEvent.SELECTED) singleTrackCut = true;
+//            else if (event.getStateChange() == ItemEvent.DESELECTED) singleTrackCut = false;
         } else if (event.getSource() == comboSectorHistoType
                 && event.getStateChange() == ItemEvent.SELECTED) {
             System.out.println("Change:"

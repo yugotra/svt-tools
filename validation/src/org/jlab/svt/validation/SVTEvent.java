@@ -721,8 +721,8 @@ public class SVTEvent {
             } else {
                 /*
                 if (bank_SVTTracks.getDouble("circlefit_chi2_per_ndf", 0) > 0.05) {
-                    if (print) System.out.println(Constants.RED + " chi2 large, skip..." + Constants.RESET);
-                    return true; // chi2 cut
+                    if (print) System.out.println(Constants.RED + " chi2CheckBox large, skip..." + Constants.RESET);
+                    return true; // chi2CheckBox cut
                 }
                 ArrayList<Integer> trackCrosses = new ArrayList<Integer>();
                 for (int i = 0; i < Constants.NLAYERS; ++i) {
@@ -851,7 +851,7 @@ public class SVTEvent {
                 svtCosmicTracks.get(row).phi = bankSVTCosmics.getDouble("phi", row);
                 svtCosmicTracks.get(row).theta = bankSVTCosmics.getDouble("theta", row);
 //                svtCosmicTracks.get(row).kfChi2 = bankSVTCosmics.getDouble("KF_chi2", row);
-                svtCosmicTracks.get(row).kfChi2 = bankSVTCosmics.getDouble("chi2", row);
+                svtCosmicTracks.get(row).kfChi2 = bankSVTCosmics.getDouble("chi2CheckBox", row);
                 // svtCosmicTracks.get(row).kfNdf=(int)bankSVTCosmics.getDouble("KF_ndf",row);
 //                svtCosmicTracks.get(row).kfNdf = bankSVTCosmics.getInt("KF_ndf", row);
                 svtCosmicTracks.get(row).kfNdf = bankSVTCosmics.getInt("ndf", row);
@@ -1189,7 +1189,7 @@ public class SVTEvent {
         nf.setMaximumFractionDigits(2);
         NumberFormat nf0 = NumberFormat.getInstance();
         nf0.setMaximumFractionDigits(0);
-        String[] trackColumnNames = {"TkID", "sl_yx", "int_yx", "sl_yz", "int_yz", "theta", "phi", "chi2", "ndf",
+        String[] trackColumnNames = {"TkID", "sl_yx", "int_yx", "sl_yz", "int_yz", "theta", "phi", "chi2CheckBox", "ndf",
                 "Cr1_ID", "Cr2_ID", "Cr3_ID", "Cr4_ID", "Cr5_ID", "Cr6_ID", "Cr7_ID", "Cr8_ID", "n_cr", "n_cl", "n_h"};
         int n_vars = trackColumnNames.length;
         data = new Object[nTracks][n_vars];
