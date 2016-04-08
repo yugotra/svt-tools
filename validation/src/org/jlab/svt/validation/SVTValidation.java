@@ -43,7 +43,6 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
     public String sensorHistoType = "adc";
     public String sectorHistoType = "adc";
     public String histoType = "Track";
-    String histoFileName;
     SVTHistos svtHistos;
     SVTGraph svtGraph;
     protected static List<String> inputFiles;
@@ -89,11 +88,9 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
 
         Constants constants = new Constants();
         eventNr = 1;
-//        histoFileName="svtValidation_rec_helic_5T.1.0.evio";
-//        histoFileName="svtValidation_rec_helic_5T_svt.v0.2.0.evio";
+//        Constants.histoFileName="svtValidation_rec_helic_5T.1.0.evio";
         inputFiles = new ArrayList<String>();
 //        inputFiles.add("/Volumes/data/work/coatjava/rec_svt_muminus_5T.4.0.hipo");
-        histoFileName = Constants.histoFileName;
 
         File dir = new File(Constants.inputFileDir);
         try {
@@ -172,7 +169,7 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
 //        configMenu.getChi2CheckBox().addItemListener(this);
 //        configMenu.getAllCrossesCheckBox().addItemListener(this);
 
-        JButton buttonOpenDataFile = new JButton("Open");
+        JButton buttonOpenDataFile = new JButton("File");
         buttonOpenDataFile.addActionListener(this);
         this.detectorModulePane.getControlPanel().add(buttonOpenDataFile, c);
         c.gridx++;
@@ -602,7 +599,7 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
             TBrowser tBrowser = new TBrowser(svtHistos.rootDir);
         } else if (e.getActionCommand().compareTo("Group") == 0) {
             svtGraph.PlotHistos(this, this.getDetectorModulePane(), this.getFrame());
-        } else if (e.getActionCommand().compareTo("Open") == 0) {
+        } else if (e.getActionCommand().compareTo("File") == 0) {
             inputFiles.clear();
             fileChooser.createAndShowGUI();
         } else if (e.getActionCommand().compareTo("Process") == 0) {
@@ -613,9 +610,8 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
             System.out.println(Constants.GREEN + "Events processed: " + (eventNr - 1 - skipEvents) + Constants.RESET);
         } else if (e.getActionCommand().compareTo("Save") == 0) {
         //    svtHistos.rootDir.write(histoFileName);
-            //svtHistos.rootDir.writeHipo("testwrite.hipo");
-        svtHistos.rootDir.writeHipo("testwrite.hipo");
-            System.out.println("Histogram file: " + histoFileName);
+        svtHistos.rootDir.writeHipo(Constants.histoFileName);
+            System.out.println("Histogram file: " + Constants.histoFileName);
         } else if (e.getActionCommand().compareTo("Sector") == 0) {
             svtGraph.PlotSectorHistos(this, this.getDetectorModulePane(), this.getFrame());
         }

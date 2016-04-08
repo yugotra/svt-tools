@@ -24,7 +24,7 @@ public class Constants {
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
-    protected static boolean cosmicRun = true;
+    protected static boolean cosmicRun = false;
     protected static boolean mcRun = true;
     protected static String inputFileDir = ".";
     protected static String inputFileName = "input_files.txt";
