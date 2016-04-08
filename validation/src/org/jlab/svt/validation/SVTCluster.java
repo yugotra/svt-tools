@@ -13,6 +13,8 @@ public class SVTCluster {
     double seedE;
     int seedStrip;
     double centroid;
+    double centroidResidual;
+    double seedResidual;
     int hit1Id;
     int hit2Id;
     int hit3Id;
@@ -33,6 +35,8 @@ public class SVTCluster {
         seedE =-1;
         seedStrip =-1;
         centroid =-1;
+        centroidResidual =-1;
+        seedResidual =-1;
         hit1Id =-1;
         hit2Id =-1;
         hit3Id =-1;
@@ -79,9 +83,15 @@ public class SVTCluster {
                 svtTrackHits.get(hit_row).trkingStat =bank_SVTHit.getInt("trkingStat",row);
                 svtTrackHits.get(hit_row).clusterId =bank_SVTHit.getInt("clusterID",row);
                 if(dgtzBank) {
-                    svtTrackHits.get(hit_row).adc =bank_SVTDgtz.getInt("ADC", svtTrackHits.get(hit_row).id -1);
-                    svtTrackHits.get(hit_row).bco =bank_SVTDgtz.getInt("bco", svtTrackHits.get(hit_row).id -1);
-                    svtTrackHits.get(hit_row).hitN =bank_SVTDgtz.getInt("hitn", svtTrackHits.get(hit_row).id -1);
+//                    svtTrackHits.get(hit_row).bco =bank_SVTDgtz.getInt("bco", svtTrackHits.get(hit_row).id -1);
+                    if(Constants.mcRun) {
+                        svtTrackHits.get(hit_row).adc =bank_SVTDgtz.getInt("ADC", svtTrackHits.get(hit_row).id -1);
+                        svtTrackHits.get(hit_row).hitN =bank_SVTDgtz.getInt("hitn", svtTrackHits.get(hit_row).id -1);
+                    }
+                    else {
+                        svtTrackHits.get(hit_row).adc =bank_SVTDgtz.getInt("ADC", svtTrackHits.get(hit_row).id);
+                        svtTrackHits.get(hit_row).hitN =bank_SVTDgtz.getInt("hitn", svtTrackHits.get(hit_row).id);
+                    }
                 }
                 svtTrackHits.get(hit_row).crossId = crossId;
                 svtTrackHits.get(hit_row).trjId = trjId;

@@ -5,7 +5,7 @@ import org.jlab.evio.clas12.EvioDataEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-class SVTCosmicTrack {
+public class SVTCosmicTrack {
 
     int id;
     double trklineYxSlope;
@@ -96,10 +96,12 @@ class SVTCosmicTrack {
     }
 
     void ReadTrackTrajectory(EvioDataEvent event, int trackId, boolean print) {
-        if(event.hasBank("BSTRec::Trajectory")){
+        if(event.hasBank("BSTRec::Trajectory") || event.hasBank("CVTRec::Trajectory")){
             svtTrajectory = new SVTTrajectory();
             int trajRow=0;
-            EvioDataBank bank_SVTTrajectory = (EvioDataBank) event.getBank("BSTRec::Trajectory");
+            EvioDataBank bank_SVTTrajectory;
+            if(event.hasBank("BSTRec::Trajectory")) bank_SVTTrajectory = (EvioDataBank) event.getBank("BSTRec::Trajectory");
+            else bank_SVTTrajectory = (EvioDataBank) event.getBank("CVTRec::Trajectory");
             int nrows=bank_SVTTrajectory.rows();
             for(int row = 0; row < nrows; row++){
                 if(trackId!=bank_SVTTrajectory.getInt("ID",row)||bank_SVTTrajectory.getInt("LayerTrackIntersPlane",row)==0) continue;

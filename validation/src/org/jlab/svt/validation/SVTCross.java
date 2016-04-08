@@ -79,6 +79,8 @@ public class SVTCross {
             svtTrackClusters.get(nTrackClusters -1).seedE =bank_SVTCluster.getDouble("seedE",cluster_row);
             svtTrackClusters.get(nTrackClusters -1).seedStrip =bank_SVTCluster.getInt("seedStrip",cluster_row);
             svtTrackClusters.get(nTrackClusters -1).centroid =bank_SVTCluster.getDouble("centroid",cluster_row);
+            svtTrackClusters.get(nTrackClusters -1).centroidResidual =bank_SVTCluster.getDouble("centroidResidual",cluster_row);
+            svtTrackClusters.get(nTrackClusters -1).seedResidual =bank_SVTCluster.getDouble("seedResidual",cluster_row);
             svtTrackClusters.get(nTrackClusters -1).hit1Id =bank_SVTCluster.getInt("Hit1_ID",cluster_row);
             svtTrackClusters.get(nTrackClusters -1).hit2Id =bank_SVTCluster.getInt("Hit2_ID",cluster_row);
             svtTrackClusters.get(nTrackClusters -1).hit3Id =bank_SVTCluster.getInt("Hit3_ID",cluster_row);

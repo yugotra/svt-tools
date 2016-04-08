@@ -66,15 +66,15 @@ public class TableRender extends JPanel {
                 "Vegetarian"};
         private Object[][] data = {
                 {"Kathy", "Smith",
-                        "Snowboarding", new Integer(5), new Boolean(false)},
+                        "Snowboarding", new Integer(5), Boolean.valueOf(false)},
                 {"John", "Doe",
-                        "Rowing", new Integer(3), new Boolean(true)},
+                        "Rowing", new Integer(3), Boolean.valueOf(true)},
                 {"Sue", "Black",
-                        "Knitting", new Integer(2), new Boolean(false)},
+                        "Knitting", new Integer(2), Boolean.valueOf(false)},
                 {"Jane", "White",
-                        "Speed reading", new Integer(20), new Boolean(true)},
+                        "Speed reading", new Integer(20), Boolean.valueOf(true)},
                 {"Joe", "Brown",
-                        "Pool", new Integer(10), new Boolean(false)}
+                        "Pool", new Integer(10), Boolean.valueOf(false)}
         };
         public final Object[] longValues = {"Jane", "Kathy",
                 "None of the above",

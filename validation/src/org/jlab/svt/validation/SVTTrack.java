@@ -5,7 +5,7 @@ import org.jlab.evio.clas12.EvioDataEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-class SVTTrack {
+public class SVTTrack {
 
     int id;
     int fittingMethod;
@@ -15,6 +15,7 @@ class SVTTrack {
     double cUX;
     double cUY;
     double cUZ;
+    double pathLength;
     int q;
     double p;
     double pT;
@@ -30,6 +31,8 @@ class SVTTrack {
     double covRho2;
     double covZ02;
     double covTanDip2;
+    double cirFitChi2Ndf;
+    double linFitChi2Ndf;
     int[] crossId;
 
     int nTrackHits;
@@ -57,6 +60,7 @@ class SVTTrack {
         cUY = -1;
         cUZ = -1;
         int q = -1;
+        pathLength = -1;
         p = -1;
         pT = -1;
         phi0 = -1;
@@ -71,6 +75,8 @@ class SVTTrack {
         covRho2 = -1;
         covZ02 = -1;
         covTanDip2 = -1;
+        cirFitChi2Ndf = -1;
+        linFitChi2Ndf = -1;
         crossId = new int[Constants.NREGIONS];
         for(int i=0;i<Constants.NREGIONS;++i) crossId[i] = -1;
 
@@ -144,10 +150,12 @@ class SVTTrack {
     }
 
     void ReadTrackTrajectory(EvioDataEvent event, int trackId, boolean print) {
-        if(event.hasBank("BSTRec::Trajectory")){
+        if(event.hasBank("BSTRec::Trajectory") || event.hasBank("CVTRec::Trajectory")){
             svtTrajectory = new SVTTrajectory();
             int trajRow=0;
-            EvioDataBank bank_SVTTrajectory = (EvioDataBank) event.getBank("BSTRec::Trajectory");
+            EvioDataBank bank_SVTTrajectory;
+            if(event.hasBank("BSTRec::Trajectory")) bank_SVTTrajectory = (EvioDataBank) event.getBank("BSTRec::Trajectory");
+            else bank_SVTTrajectory = (EvioDataBank) event.getBank("CVTRec::Trajectory");
             int nrows=bank_SVTTrajectory.rows();
             for(int row = 0; row < nrows; row++){
                 if(trackId!=bank_SVTTrajectory.getInt("ID",row)||bank_SVTTrajectory.getInt("LayerTrackIntersPlane",row)==0) continue;
@@ -159,9 +167,17 @@ class SVTTrack {
                 svtTrajectory.x.add(trajRow,bank_SVTTrajectory.getDouble("XtrackIntersPlane",row));
                 svtTrajectory.y.add(trajRow,bank_SVTTrajectory.getDouble("YtrackIntersPlane",row));
                 svtTrajectory.z.add(trajRow,bank_SVTTrajectory.getDouble("ZtrackIntersPlane",row));
-                svtTrajectory.phi.add(trajRow,bank_SVTTrajectory.getDouble("PhiTrackIntersPlane",row));
-                svtTrajectory.theta.add(trajRow,bank_SVTTrajectory.getDouble("ThetaTrackIntersPlane",row));
-                svtTrajectory.angle3D.add(trajRow,bank_SVTTrajectory.getDouble("trkToMPlnAngl",row));
+                double phi = bank_SVTTrajectory.getDouble("PhiTrackIntersPlane",row);
+                double theta = bank_SVTTrajectory.getDouble("ThetaTrackIntersPlane",row);
+                double angle3D = bank_SVTTrajectory.getDouble("trkToMPlnAngl",row);
+                if(Constants.mcRun) {
+                    phi*=180/Math.PI;
+                    theta*=180/Math.PI;
+                    angle3D*=180/Math.PI;
+                }
+                svtTrajectory.phi.add(trajRow,phi);
+                svtTrajectory.theta.add(trajRow,theta);
+                svtTrajectory.angle3D.add(trajRow,angle3D);
                 svtTrajectory.centroid.add(trajRow,bank_SVTTrajectory.getDouble("CalcCentroidStrip",row));
                 trajRow++;
             }
@@ -181,7 +197,8 @@ class SVTTrack {
         nf.setMaximumFractionDigits(2);
         System.out.print("Track " + id + " " + nf.format(trklineYxSlope) + " " + nf.format(trklineYxInterc) + " " + nf.format(trklineYzSlope) + " " +
                 nf.format(trklineYzInterc) + " " + nf.format(theta) + " " + nf.format(phi) + " " + nf.format(kfChi2) + " " + kfNdf + " crId ");
-        for(int i=0;i<Constants.NLAYERS;++i) System.out.print(crossId[i] + " ");
+        if(Constants.cosmicRun) for(int i=0;i<Constants.NLAYERS;++i) System.out.print(crossId[i] + " ");
+        else  for(int i=0;i<Constants.NREGIONS;++i) System.out.print(crossId[i] + " ");
         System.out.println( " ncr " + nTrackCrosses + " ncl " + nTrackClusters + " nh " + nTrackHits);
     }
 }
