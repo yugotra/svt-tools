@@ -81,7 +81,7 @@ public class ConfigMenu extends JPanel {
         configMenu.pane.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
         JFrame frame = new JFrame("Config Menu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setJMenuBar(configMenu.menuBar);
         frame.getContentPane().add(configMenu.pane, BorderLayout.CENTER);
         frame.pack();
