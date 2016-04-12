@@ -28,8 +28,9 @@ public class Constants {
     protected static boolean mcRun = true;
     protected static String inputFileDir = ".";
     protected static String inputFileName = "input_files.txt";
+    protected static String dataFileDirName = "/Volumes/data/work/CLAS-12-DISTRO/coatjava";
     protected static String histoFileName = "svtValidation_rec_svt_test.evio";
-
+    protected static String histoFileDirName = "/Volumes/data/work/CLAS-12-DISTRO/coatjava";
 
     protected static final String[] sList =
             {

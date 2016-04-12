@@ -297,6 +297,7 @@ public class SVTHistos {
         bookHistoSensor(dirSensor, "correctedClusterCharge", 100, -0.5, 299.5);
         bookHistoSensor(dirSensor, "stripMultiplicity", 30, -0.5, 29.5);
         bookHistoSensor(dirSensor, "seedCharge", 100, -0.5, 299.5);
+        bookHistoSensor(dirSensor, "layerEfficiency", 3, -1.5, 1.5);
         bookHistoSensor(dirSensor, "centroidResidual_angle", "track angle", "centroidResidual", 180, -0.5, 179.5, 200, -10, 10);
         bookHistoSensor(dirSensor, "centroidResidual_phi", "phi", "centroidResidual", 180, -0.5, 179.5, 200, -10, 10);
         bookHistoSensor(dirSensor, "centroidResidual_theta", "theta", "centroidResidual", 180, -0.5, 179.5, 200, -10, 10);

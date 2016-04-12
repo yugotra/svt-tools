@@ -140,6 +140,7 @@ public class SVTGraph {
         }
         H1D hEffLr = H1D.divide(svtHistos.histoMap.get("event_trackHitsPerLayer_svt").h, svtHistos.histoMap.get("event_dgtzPerLayer_svt").h);
         hEffLr.normalize(0.01);
+        hEffLr.setName("trackHitEff_layer_svt");
         hEffLr.setXTitle("Layer");
         hEffLr.setYTitle("Hit Efficiency, %");
         hEffLr.setFillColor(24);

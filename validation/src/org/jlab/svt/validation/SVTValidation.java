@@ -13,6 +13,7 @@ import org.root.group.TBrowser;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -600,17 +601,32 @@ public class SVTValidation extends JPanel implements IDetectorListener, ItemList
         } else if (e.getActionCommand().compareTo("Group") == 0) {
             svtGraph.PlotHistos(this, this.getDetectorModulePane(), this.getFrame());
         } else if (e.getActionCommand().compareTo("File") == 0) {
-            inputFiles.clear();
-            fileChooser.createAndShowGUI();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(Constants.dataFileDirName));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("HIPO FILES", "hipo", "hipo");
+            fileChooser.setFileFilter(filter);
+            int result = fileChooser.showOpenDialog(new JFrame());
+            if (result == JFileChooser.APPROVE_OPTION) {
+                inputFiles.clear();
+                File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                inputFiles.add(selectedFile.getAbsolutePath());
+            }
         } else if (e.getActionCommand().compareTo("Process") == 0) {
-            inputFiles.add(fileChooser.dataFileName);
             System.out.println(Constants.GREEN + "Processing file: " + inputFiles.get(0) + Constants.RESET);
             processData();
             makeGraphs();
             System.out.println(Constants.GREEN + "Events processed: " + (eventNr - 1 - skipEvents) + Constants.RESET);
         } else if (e.getActionCommand().compareTo("Save") == 0) {
-        //    svtHistos.rootDir.write(histoFileName);
-        svtHistos.rootDir.writeHipo(Constants.histoFileName);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(Constants.histoFileDirName));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("HIPO FILES", "hipo", "hipo");
+            fileChooser.setFileFilter(filter);
+            if (fileChooser.showSaveDialog(new JFrame()) == JFileChooser.APPROVE_OPTION) {
+                Constants.histoFileName = fileChooser.getSelectedFile().getAbsolutePath();
+            }
+            //    svtHistos.rootDir.write(histoFileName);
+            svtHistos.rootDir.writeHipo(Constants.histoFileName);
             System.out.println("Histogram file: " + Constants.histoFileName);
         } else if (e.getActionCommand().compareTo("Sector") == 0) {
             svtGraph.PlotSectorHistos(this, this.getDetectorModulePane(), this.getFrame());

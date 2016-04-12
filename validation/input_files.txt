@@ -1,4 +1,5 @@
-/Volumes/data/work/CLAS-12-DISTRO/coatjava/test.hipo
+/Volumes/data/work/CLAS-12-DISTRO/coatjava/rec_helic_0T_layereff.1.0.hipo
+*/Volumes/data/work/CLAS-12-DISTRO/coatjava/test.hipo
 */Volumes/data/work/CLAS-12-DISTRO/coatjava/rec_svt_muminus_5T.4.0.hipo
 */Volumes/data/work/CLAS-12-DISTRO/rec_cvt_muminus_5T.4.0.hipo
 */Volumes/data/work/clasio/svtskim.mc.0.evio

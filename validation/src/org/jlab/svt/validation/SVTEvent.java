@@ -105,6 +105,19 @@ public class SVTEvent {
                 detType = "BMT";
                 suffix = "_bmt";
             }
+            bankName = detType + "Rec::LayerEffs";
+            if (event.hasBank(bankName) && detType == "BST") {
+                EvioDataBank bankLayerEff = (EvioDataBank) event.getBank(bankName);
+                int nRows = bankLayerEff.rows();
+                for (int row = 0; row < nRows; ++row) {
+                    int sector = bankLayerEff.getInt("sector", row);
+                    int layer = bankLayerEff.getInt("layer", row);
+                    int status = bankLayerEff.getInt("status", row);
+                    if(sector<=Constants.SECTORSPERLAYER[layer - 1]) {
+                        svthistos.histoSensorMap.get("layerEfficiency").h[layer - 1][sector - 1].fill(status);
+                    }
+                }
+            }
             bankName = detType + "Rec::Crosses";
             if (event.hasBank(bankName)) {
                 EvioDataBank bankSVTCross = (EvioDataBank) event.getBank(bankName);

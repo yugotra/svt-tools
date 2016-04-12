@@ -31,15 +31,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SVTValidation.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SVTValidation.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTValidation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.5555553">
-              <caret line="594" column="2" selection-start-line="594" selection-start-column="2" selection-end-line="594" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.5276243">
+              <caret line="624" column="43" selection-start-line="624" selection-start-column="43" selection-end-line="624" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5191#5256#0" expanded="false" />
-                <element signature="e#24956#24981#0" expanded="false" />
+                <element signature="e#5247#5312#0" expanded="false" />
+                <element signature="e#25012#25037#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -49,7 +49,7 @@
         <entry file="file://$PROJECT_DIR$/input_files.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
+              <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -69,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="21" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -105,24 +105,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileChooser.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/FileChooser.java">
+      <file leaf-file-name="SVTEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4300932">
-              <caret line="110" column="36" selection-start-line="110" selection-start-column="36" selection-end-line="110" selection-end-column="36" />
-              <folding />
+            <state vertical-scroll-proportion="-1.1666666">
+              <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SVTEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java">
+      <file leaf-file-name="SVTGraph.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTGraph.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="565" column="43" selection-start-line="565" selection-start-column="43" selection-end-line="565" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <caret line="142" column="41" selection-start-line="142" selection-start-column="41" selection-end-line="142" selection-end-column="41" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -131,7 +131,7 @@
         <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTHistos.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="11" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <caret line="281" column="67" selection-start-line="281" selection-start-column="67" selection-end-line="281" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -186,9 +186,6 @@
         <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTCluster.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/Main.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/TableRender.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTHistos.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTGraph.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/svt/utils/CanvasViewPanel.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/clas12/monitor/IDataEventPlugin.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/clas12/calib/CalibrationControlPanel.java" />
@@ -199,12 +196,15 @@
         <option value="$PROJECT_DIR$/src/org/jlab/clas12/calib/DetectorDatasetPane.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/clas12/calib/DetectorShapeTabView.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/clas12/detector/EventDecoderViewer.java" />
-        <option value="$PROJECT_DIR$/input_files.txt" />
-        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTValidation.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/Constants.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/PopupMenu.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/ConfigMenu.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/FileChooser.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTHistos.java" />
+        <option value="$PROJECT_DIR$/input_files.txt" />
+        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTGraph.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/Constants.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/svt/validation/SVTValidation.java" />
       </list>
     </option>
   </component>
@@ -842,12 +842,12 @@
       <workItem from="1460069796901" duration="14902000" />
       <workItem from="1460111527794" duration="4423000" />
       <workItem from="1460119769530" duration="3829000" />
-      <workItem from="1460123883421" duration="13145000" />
+      <workItem from="1460123883421" duration="18284000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="477939000" />
+    <option name="totallyTimeSpent" value="483078000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="58" y="23" width="1365" height="876" extended-state="0" />
@@ -922,13 +922,17 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="96" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java</url>
+          <line>116</line>
+          <properties />
+          <option name="timeStamp" value="97" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="98" />
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="inputFiles" language="JAVA" custom="" />
-      </configuration>
-    </watches-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1093,14 +1097,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="33" selection-start-line="250" selection-start-column="33" selection-end-line="250" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/Stats.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1247,44 +1243,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="565" column="43" selection-start-line="565" selection-start-column="43" selection-end-line="565" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTHistos.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="11" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/input_files.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="21" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1297,15 +1259,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTValidation.java">
+    <entry file="file://$PROJECT_DIR$/input_files.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.5555553">
-          <caret line="594" column="2" selection-start-line="594" selection-start-column="2" selection-end-line="594" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTHistos.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="281" column="67" selection-start-line="281" selection-start-column="67" selection-end-line="281" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1666666">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5191#5256#0" expanded="false" />
-            <element signature="e#24956#24981#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="142" column="41" selection-start-line="142" selection-start-column="41" selection-end-line="142" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/FileChooser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5818908">
+          <caret line="31" column="47" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1327,11 +1319,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/FileChooser.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4300932">
-          <caret line="110" column="36" selection-start-line="110" selection-start-column="36" selection-end-line="110" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/svt/validation/SVTValidation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5276243">
+          <caret line="624" column="43" selection-start-line="624" selection-start-column="43" selection-end-line="624" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5247#5312#0" expanded="false" />
+            <element signature="e#25012#25037#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
